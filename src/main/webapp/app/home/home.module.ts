@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { JHipsterBlogSharedModule } from '../shared';
 
 import { HOME_ROUTE, HomeComponent } from './';
+import {PostsComponent} from './posts';
 
 @NgModule({
     imports: [
@@ -12,6 +13,7 @@ import { HOME_ROUTE, HomeComponent } from './';
     ],
     declarations: [
         HomeComponent,
+        PostsComponent
     ],
     entryComponents: [
     ],

@@ -9,38 +9,7 @@
             </div>
         </div>
     </div>
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <form name="form" role="form" (ngSubmit)="searchPost()" #searchPostForm="ngForm" *ngIf="!success">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="inputSearch" name="inputSearch" #inputSearch placeholder="{{'home.form.search.placeholder' | translate}}"
-                           required minlength="1" maxlength="50" pattern="^[_'.@A-Za-z0-9-]*$">
-                </div>
-                <div class="col-md-12 text-center">
-                    <button type="submit" class="btn btn-primary btn-search" jhiTranslate="home.form.button">Search</button>
-                </div>
-
-            </form>
-        </div>>
-
-        <div class="col-md-8">
-            <div class="row" style="height: 90%"
-                 infiniteScroll [infiniteScrollDistance]="0"
-                 [infiniteScrollThrottle]="300" (scrolled)="loadMorePosts()">
-                <div class="card"  *ngFor="let post of posts">
-                    <div class="card-body">
-                        <h5 class="card-title">{{post.title}}</h5>
-                        <p class="card-text">{{post.body}}</p>
-                        <p class="card-text"><small class="text-muted">{{post.author}}</small></p>
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        Assets
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        <a href="#" class="btn btn-toolbar">Comment</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div>
+        <jhi-posts></jhi-posts>
     </div>
 </div>
