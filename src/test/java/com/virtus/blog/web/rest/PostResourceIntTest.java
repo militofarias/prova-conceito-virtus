@@ -25,8 +25,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.util.List;
 
+import static com.virtus.blog.web.rest.TestUtil.sameInstant;
 import static com.virtus.blog.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -44,6 +49,9 @@ public class PostResourceIntTest {
 
     private static final String DEFAULT_TITLE = "AAAAAAAAAA";
     private static final String UPDATED_TITLE = "BBBBBBBBBB";
+
+    private static final ZonedDateTime DEFAULT_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
     @Autowired
     private PostRepository postRepository;
@@ -92,7 +100,8 @@ public class PostResourceIntTest {
      */
     public static Post createEntity(EntityManager em) {
         Post post = new Post()
-            .title(DEFAULT_TITLE);
+            .title(DEFAULT_TITLE)
+            .date(DEFAULT_DATE);
         return post;
     }
 
@@ -119,10 +128,12 @@ public class PostResourceIntTest {
         assertThat(postList).hasSize(databaseSizeBeforeCreate + 1);
         Post testPost = postList.get(postList.size() - 1);
         assertThat(testPost.getTitle()).isEqualTo(DEFAULT_TITLE);
+        assertThat(testPost.getDate()).isEqualTo(DEFAULT_DATE);
 
         // Validate the Post in Elasticsearch
         Post postEs = postSearchRepository.findOne(testPost.getId());
-        assertThat(postEs).isEqualToIgnoringGivenFields(testPost);
+        assertThat(testPost.getDate()).isEqualTo(testPost.getDate());
+        assertThat(postEs).isEqualToIgnoringGivenFields(testPost, "date");
     }
 
     @Test
@@ -147,6 +158,44 @@ public class PostResourceIntTest {
 
     @Test
     @Transactional
+    public void checkTitleIsRequired() throws Exception {
+        int databaseSizeBeforeTest = postRepository.findAll().size();
+        // set the field null
+        post.setTitle(null);
+
+        // Create the Post, which fails.
+        PostDTO postDTO = postMapper.toDto(post);
+
+        restPostMockMvc.perform(post("/api/posts")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(postDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Post> postList = postRepository.findAll();
+        assertThat(postList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = postRepository.findAll().size();
+        // set the field null
+        post.setDate(null);
+
+        // Create the Post, which fails.
+        PostDTO postDTO = postMapper.toDto(post);
+
+        restPostMockMvc.perform(post("/api/posts")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(postDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Post> postList = postRepository.findAll();
+        assertThat(postList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllPosts() throws Exception {
         // Initialize the database
         postRepository.saveAndFlush(post);
@@ -156,7 +205,8 @@ public class PostResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(post.getId().intValue())))
-            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())));
+            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
+            .andExpect(jsonPath("$.[*].date").value(hasItem(sameInstant(DEFAULT_DATE))));
     }
 
     @Test
@@ -170,7 +220,8 @@ public class PostResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(post.getId().intValue()))
-            .andExpect(jsonPath("$.title").value(DEFAULT_TITLE.toString()));
+            .andExpect(jsonPath("$.title").value(DEFAULT_TITLE.toString()))
+            .andExpect(jsonPath("$.date").value(sameInstant(DEFAULT_DATE)));
     }
 
     @Test
@@ -194,7 +245,8 @@ public class PostResourceIntTest {
         // Disconnect from session so that the updates on updatedPost are not directly saved in db
         em.detach(updatedPost);
         updatedPost
-            .title(UPDATED_TITLE);
+            .title(UPDATED_TITLE)
+            .date(UPDATED_DATE);
         PostDTO postDTO = postMapper.toDto(updatedPost);
 
         restPostMockMvc.perform(put("/api/posts")
@@ -207,10 +259,12 @@ public class PostResourceIntTest {
         assertThat(postList).hasSize(databaseSizeBeforeUpdate);
         Post testPost = postList.get(postList.size() - 1);
         assertThat(testPost.getTitle()).isEqualTo(UPDATED_TITLE);
+        assertThat(testPost.getDate()).isEqualTo(UPDATED_DATE);
 
         // Validate the Post in Elasticsearch
         Post postEs = postSearchRepository.findOne(testPost.getId());
-        assertThat(postEs).isEqualToIgnoringGivenFields(testPost);
+        assertThat(testPost.getDate()).isEqualTo(testPost.getDate());
+        assertThat(postEs).isEqualToIgnoringGivenFields(testPost, "date");
     }
 
     @Test
@@ -266,7 +320,8 @@ public class PostResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(post.getId().intValue())))
-            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())));
+            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
+            .andExpect(jsonPath("$.[*].date").value(hasItem(sameInstant(DEFAULT_DATE))));
     }
 
     @Test

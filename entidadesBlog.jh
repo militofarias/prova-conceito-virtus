@@ -1,27 +1,28 @@
 entity Post {
-	title String
+	title String required
+    date ZonedDateTime required
 }
 
 entity Commentary {
-	text TextBlob
+	text TextBlob required
 }
 
 entity Body {
-	text TextBlob
+	text TextBlob required
 }
 
 entity Asset {
-	imagePath String
+	imagePath String required
 }
 
 relationship OneToMany {
 	Post{commentary} to Commentary{post(title)}
-	Body{asset} to Asset
+	Body{asset} to Asset{body(text)}
 }
 
 relationship OneToOne {
 	Commentary{user(login)} to User
-    Post{body} to Body{post}
+    Post{body(text)} to Body{post(title)}
 }
 
 paginate Commentary, Post with infinite-scroll

@@ -15,14 +15,37 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jHipsterBlogApp.post.title" for="field_title">Title</label>
             <input type="text" class="form-control" name="title" id="field_title"
-                [(ngModel)]="post.title" />
+                [(ngModel)]="post.title" required/>
+            <div [hidden]="!(editForm.controls.title?.dirty && editForm.controls.title?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.title?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jHipsterBlogApp.post.date" for="field_date">Date</label>
+            <div class="d-flex">
+                <input id="field_date" type="datetime-local" class="form-control" name="date" [(ngModel)]="post.date"
+                required/>
+            </div>
+            <div [hidden]="!(editForm.controls.date?.dirty && editForm.controls.date?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.date?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.date?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </small>
+            </div>
         </div>
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jHipsterBlogApp.post.body" for="field_body">Body</label>
             <select class="form-control" id="field_body" name="body" [(ngModel)]="post.bodyId">
                 <option [ngValue]="null"></option>
-                <option [ngValue]="bodyOption.id" *ngFor="let bodyOption of bodies; trackBy: trackBodyById">{{bodyOption.id}}</option>
+                <option [ngValue]="bodyOption.id" *ngFor="let bodyOption of bodies; trackBy: trackBodyById">{{bodyOption.text}}</option>
             </select>
         </div>
     </div>

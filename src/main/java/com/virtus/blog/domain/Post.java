@@ -5,9 +5,11 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -28,8 +30,13 @@ public class Post implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name = "title")
+    @NotNull
+    @Column(name = "title", nullable = false)
     private String title;
+
+    @NotNull
+    @Column(name = "jhi_date", nullable = false)
+    private ZonedDateTime date;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -60,6 +67,19 @@ public class Post implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public ZonedDateTime getDate() {
+        return date;
+    }
+
+    public Post date(ZonedDateTime date) {
+        this.date = date;
+        return this;
+    }
+
+    public void setDate(ZonedDateTime date) {
+        this.date = date;
     }
 
     public Body getBody() {
@@ -126,6 +146,7 @@ public class Post implements Serializable {
         return "Post{" +
             "id=" + getId() +
             ", title='" + getTitle() + "'" +
+            ", date='" + getDate() + "'" +
             "}";
     }
 }

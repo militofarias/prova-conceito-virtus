@@ -3,6 +3,8 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { SERVER_API_URL } from '../../app.constants';
 
+import { JhiDateUtils } from 'ng-jhipster';
+
 import { PostMySuffix } from './post-my-suffix.model';
 import { createRequestOption } from '../../shared';
 
@@ -14,7 +16,7 @@ export class PostMySuffixService {
     private resourceUrl =  SERVER_API_URL + 'api/posts';
     private resourceSearchUrl = SERVER_API_URL + 'api/_search/posts';
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private dateUtils: JhiDateUtils) { }
 
     create(post: PostMySuffix): Observable<EntityResponseType> {
         const copy = this.convert(post);
@@ -68,6 +70,8 @@ export class PostMySuffixService {
      */
     private convertItemFromServer(post: PostMySuffix): PostMySuffix {
         const copy: PostMySuffix = Object.assign({}, post);
+        copy.date = this.dateUtils
+            .convertDateTimeFromServer(post.date);
         return copy;
     }
 
@@ -76,6 +80,8 @@ export class PostMySuffixService {
      */
     private convert(post: PostMySuffix): PostMySuffix {
         const copy: PostMySuffix = Object.assign({}, post);
+
+        copy.date = this.dateUtils.toDate(post.date);
         return copy;
     }
 }
