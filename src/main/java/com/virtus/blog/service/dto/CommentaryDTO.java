@@ -1,6 +1,7 @@
 package com.virtus.blog.service.dto;
 
 
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +15,7 @@ public class CommentaryDTO implements Serializable {
 
     private Long id;
 
+    @NotNull
     @Lob
     private String text;
 

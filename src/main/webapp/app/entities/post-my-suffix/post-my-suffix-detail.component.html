@@ -8,10 +8,14 @@
         <dd>
             <span>{{post.title}}</span>
         </dd>
+        <dt><span jhiTranslate="jHipsterBlogApp.post.date">Date</span></dt>
+        <dd>
+            <span>{{post.date | date:'medium'}}</span>
+        </dd>
         <dt><span jhiTranslate="jHipsterBlogApp.post.body">Body</span></dt>
         <dd>
             <div *ngIf="post.bodyId">
-                <a [routerLink]="['/body-my-suffix', post.bodyId]">{{post.bodyId}}</a>
+                <a [routerLink]="['/body-my-suffix', post.bodyId]">{{post.bodyText}}</a>
             </div>
         </dd>
     </dl>

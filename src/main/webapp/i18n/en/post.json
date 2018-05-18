@@ -18,6 +18,7 @@
                 "title": "Post"
             },
             "title": "Title",
+            "date": "Date",
             "body": "Body",
             "commentary": "Commentary"
         }

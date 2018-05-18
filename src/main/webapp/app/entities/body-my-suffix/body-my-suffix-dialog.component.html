@@ -15,7 +15,13 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jHipsterBlogApp.body.text" for="field_text">Text</label>
             <textarea class="form-control" name="text" id="field_text"
-                [(ngModel)]="body.text" ></textarea>
+                [(ngModel)]="body.text" required></textarea>
+            <div [hidden]="!(editForm.controls.text?.dirty && editForm.controls.text?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.text?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
         </div>
 
     </div>

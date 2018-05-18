@@ -35,6 +35,8 @@ describe('Post e2e test', () => {
         postComponentsPage.clickOnCreateButton();
         postDialogPage.setTitleInput('title');
         expect(postDialogPage.getTitleInput()).toMatch('title');
+        postDialogPage.setDateInput(12310020012301);
+        expect(postDialogPage.getDateInput()).toMatch('2001-12-31T02:30');
         postDialogPage.bodySelectLastOption();
         postDialogPage.save();
         expect(postDialogPage.getSaveButton().isPresent()).toBeFalsy();
@@ -63,6 +65,7 @@ export class PostDialogPage {
     saveButton = element(by.css('.modal-footer .btn.btn-primary'));
     closeButton = element(by.css('button.close'));
     titleInput = element(by.css('input#field_title'));
+    dateInput = element(by.css('input#field_date'));
     bodySelect = element(by.css('select#field_body'));
 
     getModalTitle() {
@@ -75,6 +78,14 @@ export class PostDialogPage {
 
     getTitleInput = function() {
         return this.titleInput.getAttribute('value');
+    };
+
+    setDateInput = function(date) {
+        this.dateInput.sendKeys(date);
+    };
+
+    getDateInput = function() {
+        return this.dateInput.getAttribute('value');
     };
 
     bodySelectLastOption = function() {

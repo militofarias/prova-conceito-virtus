@@ -2,16 +2,19 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "body",
             "otherEntityName": "body",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "otherEntityField": "text"
         }
     ],
     "fields": [
         {
             "fieldName": "imagePath",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20180518122419",

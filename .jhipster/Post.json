@@ -5,9 +5,9 @@
             "relationshipType": "one-to-one",
             "relationshipName": "body",
             "otherEntityName": "body",
-            "otherEntityField": "id",
+            "otherEntityField": "text",
             "ownerSide": true,
-            "otherEntityRelationshipName": "post"
+            "otherEntityRelationshipName": "post(title)"
         },
         {
             "relationshipType": "one-to-many",
@@ -19,7 +19,17 @@
     "fields": [
         {
             "fieldName": "title",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "date",
+            "fieldType": "ZonedDateTime",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20180518122416",

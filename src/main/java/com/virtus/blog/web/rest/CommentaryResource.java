@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -62,7 +63,7 @@ public class CommentaryResource {
      */
     @PostMapping("/commentaries")
     @Timed
-    public ResponseEntity<CommentaryDTO> createCommentary(@RequestBody CommentaryDTO commentaryDTO) throws URISyntaxException {
+    public ResponseEntity<CommentaryDTO> createCommentary(@Valid @RequestBody CommentaryDTO commentaryDTO) throws URISyntaxException {
         log.debug("REST request to save Commentary : {}", commentaryDTO);
         if (commentaryDTO.getId() != null) {
             throw new BadRequestAlertException("A new commentary cannot already have an ID", ENTITY_NAME, "idexists");
@@ -87,7 +88,7 @@ public class CommentaryResource {
      */
     @PutMapping("/commentaries")
     @Timed
-    public ResponseEntity<CommentaryDTO> updateCommentary(@RequestBody CommentaryDTO commentaryDTO) throws URISyntaxException {
+    public ResponseEntity<CommentaryDTO> updateCommentary(@Valid @RequestBody CommentaryDTO commentaryDTO) throws URISyntaxException {
         log.debug("REST request to update Commentary : {}", commentaryDTO);
         if (commentaryDTO.getId() == null) {
             return createCommentary(commentaryDTO);
