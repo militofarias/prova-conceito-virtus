@@ -2,6 +2,7 @@ import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { HttpResponse } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 import { PostMySuffix } from './post-my-suffix.model';
 import { PostMySuffixService } from './post-my-suffix.service';
 
@@ -10,6 +11,7 @@ export class PostMySuffixPopupService {
     private ngbModalRef: NgbModalRef;
 
     constructor(
+        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private postService: PostMySuffixService
@@ -29,6 +31,8 @@ export class PostMySuffixPopupService {
                 this.postService.find(id)
                     .subscribe((postResponse: HttpResponse<PostMySuffix>) => {
                         const post: PostMySuffix = postResponse.body;
+                        post.date = this.datePipe
+                            .transform(post.date, 'yyyy-MM-ddTHH:mm:ss');
                         this.ngbModalRef = this.postModalRef(component, post);
                         resolve(this.ngbModalRef);
                     });

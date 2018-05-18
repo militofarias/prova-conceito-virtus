@@ -144,6 +144,25 @@ public class BodyResourceIntTest {
 
     @Test
     @Transactional
+    public void checkTextIsRequired() throws Exception {
+        int databaseSizeBeforeTest = bodyRepository.findAll().size();
+        // set the field null
+        body.setText(null);
+
+        // Create the Body, which fails.
+        BodyDTO bodyDTO = bodyMapper.toDto(body);
+
+        restBodyMockMvc.perform(post("/api/bodies")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(bodyDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Body> bodyList = bodyRepository.findAll();
+        assertThat(bodyList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllBodies() throws Exception {
         // Initialize the database
         bodyRepository.saveAndFlush(body);

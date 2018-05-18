@@ -12,6 +12,7 @@ import org.mapstruct.*;
 public interface PostMapper extends EntityMapper<PostDTO, Post> {
 
     @Mapping(source = "body.id", target = "bodyId")
+    @Mapping(source = "body.text", target = "bodyText")
     PostDTO toDto(Post post);
 
     @Mapping(source = "bodyId", target = "body")

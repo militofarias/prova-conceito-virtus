@@ -15,14 +15,20 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jHipsterBlogApp.asset.imagePath" for="field_imagePath">Image Path</label>
             <input type="text" class="form-control" name="imagePath" id="field_imagePath"
-                [(ngModel)]="asset.imagePath" />
+                [(ngModel)]="asset.imagePath" required/>
+            <div [hidden]="!(editForm.controls.imagePath?.dirty && editForm.controls.imagePath?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.imagePath?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
         </div>
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jHipsterBlogApp.asset.body" for="field_body">Body</label>
             <select class="form-control" id="field_body" name="body" [(ngModel)]="asset.bodyId" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="bodyOption.id" *ngFor="let bodyOption of bodies; trackBy: trackBodyById">{{bodyOption.id}}</option>
+                <option [ngValue]="bodyOption.id" *ngFor="let bodyOption of bodies; trackBy: trackBodyById">{{bodyOption.text}}</option>
             </select>
         </div>
     </div>

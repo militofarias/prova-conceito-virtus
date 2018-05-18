@@ -12,6 +12,7 @@ import org.mapstruct.*;
 public interface AssetMapper extends EntityMapper<AssetDTO, Asset> {
 
     @Mapping(source = "body.id", target = "bodyId")
+    @Mapping(source = "body.text", target = "bodyText")
     AssetDTO toDto(Asset asset);
 
     @Mapping(source = "bodyId", target = "body")

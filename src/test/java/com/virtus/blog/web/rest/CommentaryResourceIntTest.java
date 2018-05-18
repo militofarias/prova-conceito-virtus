@@ -144,6 +144,25 @@ public class CommentaryResourceIntTest {
 
     @Test
     @Transactional
+    public void checkTextIsRequired() throws Exception {
+        int databaseSizeBeforeTest = commentaryRepository.findAll().size();
+        // set the field null
+        commentary.setText(null);
+
+        // Create the Commentary, which fails.
+        CommentaryDTO commentaryDTO = commentaryMapper.toDto(commentary);
+
+        restCommentaryMockMvc.perform(post("/api/commentaries")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(commentaryDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Commentary> commentaryList = commentaryRepository.findAll();
+        assertThat(commentaryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllCommentaries() throws Exception {
         // Initialize the database
         commentaryRepository.saveAndFlush(commentary);

@@ -1,6 +1,8 @@
 package com.virtus.blog.service.dto;
 
 
+import java.time.ZonedDateTime;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,9 +15,15 @@ public class PostDTO implements Serializable {
 
     private Long id;
 
+    @NotNull
     private String title;
 
+    @NotNull
+    private ZonedDateTime date;
+
     private Long bodyId;
+
+    private String bodyText;
 
     public Long getId() {
         return id;
@@ -33,12 +41,28 @@ public class PostDTO implements Serializable {
         this.title = title;
     }
 
+    public ZonedDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(ZonedDateTime date) {
+        this.date = date;
+    }
+
     public Long getBodyId() {
         return bodyId;
     }
 
     public void setBodyId(Long bodyId) {
         this.bodyId = bodyId;
+    }
+
+    public String getBodyText() {
+        return bodyText;
+    }
+
+    public void setBodyText(String bodyText) {
+        this.bodyText = bodyText;
     }
 
     @Override
@@ -67,6 +91,7 @@ public class PostDTO implements Serializable {
         return "PostDTO{" +
             "id=" + getId() +
             ", title='" + getTitle() + "'" +
+            ", date='" + getDate() + "'" +
             "}";
     }
 }

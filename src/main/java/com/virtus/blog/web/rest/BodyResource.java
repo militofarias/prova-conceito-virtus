@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
@@ -57,7 +58,7 @@ public class BodyResource {
      */
     @PostMapping("/bodies")
     @Timed
-    public ResponseEntity<BodyDTO> createBody(@RequestBody BodyDTO bodyDTO) throws URISyntaxException {
+    public ResponseEntity<BodyDTO> createBody(@Valid @RequestBody BodyDTO bodyDTO) throws URISyntaxException {
         log.debug("REST request to save Body : {}", bodyDTO);
         if (bodyDTO.getId() != null) {
             throw new BadRequestAlertException("A new body cannot already have an ID", ENTITY_NAME, "idexists");
@@ -82,7 +83,7 @@ public class BodyResource {
      */
     @PutMapping("/bodies")
     @Timed
-    public ResponseEntity<BodyDTO> updateBody(@RequestBody BodyDTO bodyDTO) throws URISyntaxException {
+    public ResponseEntity<BodyDTO> updateBody(@Valid @RequestBody BodyDTO bodyDTO) throws URISyntaxException {
         log.debug("REST request to update Body : {}", bodyDTO);
         if (bodyDTO.getId() == null) {
             return createBody(bodyDTO);
