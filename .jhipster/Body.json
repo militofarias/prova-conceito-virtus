@@ -1,0 +1,32 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "asset",
+            "otherEntityName": "asset",
+            "otherEntityRelationshipName": "body"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "post",
+            "otherEntityName": "post",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "body"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "text",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        }
+    ],
+    "changelogDate": "20180518122418",
+    "entityTableName": "body",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "angularJSSuffix": "mySuffix"
+}

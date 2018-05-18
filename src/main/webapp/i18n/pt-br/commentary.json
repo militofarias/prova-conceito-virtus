@@ -1,0 +1,25 @@
+
+{
+    "jHipsterBlogApp": {
+        "commentary" : {
+            "home": {
+                "title": "Commentaries",
+                "createLabel": "Criar novo Commentary",
+                "createOrEditLabel": "Criar ou editar Commentary",
+                "search": "Pesquisar por Commentary"
+            },
+            "created": "Um novo Commentary foi criado com o identificador {{ param }}",
+            "updated": "Um Commentary foi atualizado com o identificador {{ param }}",
+            "deleted": "Um Commentary foi deletado com o identificador {{ param }}",
+            "delete": {
+                "question": "Tem certeza de que deseja excluir Commentary {{ id }}?"
+            },
+            "detail": {
+                "title": "Commentary"
+            },
+            "text": "Text",
+            "user": "User",
+            "post": "Post"
+        }
+    }
+}

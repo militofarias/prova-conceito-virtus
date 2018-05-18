@@ -1,0 +1,32 @@
+
+<div *ngIf="asset">
+    <h2><span jhiTranslate="jHipsterBlogApp.asset.detail.title">Asset</span> {{asset.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jHipsterBlogApp.asset.imagePath">Image Path</span></dt>
+        <dd>
+            <span>{{asset.imagePath}}</span>
+        </dd>
+        <dt><span jhiTranslate="jHipsterBlogApp.asset.body">Body</span></dt>
+        <dd>
+            <div *ngIf="asset.bodyId">
+                <a [routerLink]="['/body-my-suffix', asset.bodyId]">{{asset.bodyId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'asset-my-suffix/'+ asset.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

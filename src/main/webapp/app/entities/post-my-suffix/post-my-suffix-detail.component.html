@@ -1,0 +1,32 @@
+
+<div *ngIf="post">
+    <h2><span jhiTranslate="jHipsterBlogApp.post.detail.title">Post</span> {{post.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jHipsterBlogApp.post.title">Title</span></dt>
+        <dd>
+            <span>{{post.title}}</span>
+        </dd>
+        <dt><span jhiTranslate="jHipsterBlogApp.post.body">Body</span></dt>
+        <dd>
+            <div *ngIf="post.bodyId">
+                <a [routerLink]="['/body-my-suffix', post.bodyId]">{{post.bodyId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'post-my-suffix/'+ post.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,24 @@
+
+{
+    "jHipsterBlogApp": {
+        "asset" : {
+            "home": {
+                "title": "Assets",
+                "createLabel": "Criar novo Asset",
+                "createOrEditLabel": "Criar ou editar Asset",
+                "search": "Pesquisar por Asset"
+            },
+            "created": "Um novo Asset foi criado com o identificador {{ param }}",
+            "updated": "Um Asset foi atualizado com o identificador {{ param }}",
+            "deleted": "Um Asset foi deletado com o identificador {{ param }}",
+            "delete": {
+                "question": "Tem certeza de que deseja excluir Asset {{ id }}?"
+            },
+            "detail": {
+                "title": "Asset"
+            },
+            "imagePath": "Image Path",
+            "body": "Body"
+        }
+    }
+}
