@@ -28,6 +28,8 @@ import {
     ErrorComponent
 } from './layouts';
 
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -38,7 +40,8 @@ import {
         JHipsterBlogAdminModule,
         JHipsterBlogAccountModule,
         JHipsterBlogEntityModule,
-        // jhipster-needle-angular-add-module JHipster will add new module here
+        // jhipster-needle-angular-add-module JHipster will add new module here,
+        InfiniteScrollModule
     ],
     declarations: [
         JhiMainComponent,

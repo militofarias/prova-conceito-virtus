@@ -5,10 +5,15 @@ Main page styles
 
 .hipster {
     display: inline-block;
-    width: 347px;
-    height: 497px;
-    background: url("../../content/images/hipster.png") no-repeat center top;
-    background-size: contain;
+    width: 100%;
+    height: 600px;
+    background: url("https://mediaserver.goepson.com/ImConvServlet/imconv/f11ddaf8aaa16159a2d53a6d9153a5f44839526a/original?use=banner&assetDescr=DZ+Visual+VP+Estadios+final-01") no-repeat center top;
+    background-size: auto;
+}
+
+.btn-search {
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 /* wait autoprefixer update to allow simple generation of high pixel density media query */

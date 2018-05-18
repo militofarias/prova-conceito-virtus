@@ -12,7 +12,7 @@ Navbar
     padding: .2em 1em;
     .profile-image {
         margin: -10px 0px;
-        height: 40px;
+        height: 60px;
         width: 40px;
         border-radius: 50%;
     }
@@ -63,13 +63,13 @@ Logo styles
 ========================================================================== */
 .navbar-brand {
     &.logo {
-        padding: 5px 15px;
+        padding: 10px 20px;
         .logo-img {
-            height: 45px;
-            width: 70px;
+            height: 50px;
+            width: 80px;
             display: inline-block;
             vertical-align: middle;
-            background: url("../../../content/images/logo-jhipster.png") no-repeat center center;
+            background: url("https://mediaserver.goepson.com/ImConvServlet/imconv/720250b1fc4bfb26c005bf7d60f7f9e96c34378a/original?use=banner&assetDescr=Epson+logo") no-repeat center center;
             background-size: contain;
         }
     }
