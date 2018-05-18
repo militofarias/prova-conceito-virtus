@@ -41,6 +41,12 @@ public class CacheConfiguration {
             cm.createCache(com.virtus.blog.domain.User.class.getName(), jcacheConfiguration);
             cm.createCache(com.virtus.blog.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(com.virtus.blog.domain.User.class.getName() + ".authorities", jcacheConfiguration);
+            cm.createCache(com.virtus.blog.domain.Post.class.getName(), jcacheConfiguration);
+            cm.createCache(com.virtus.blog.domain.Post.class.getName() + ".commentaries", jcacheConfiguration);
+            cm.createCache(com.virtus.blog.domain.Commentary.class.getName(), jcacheConfiguration);
+            cm.createCache(com.virtus.blog.domain.Body.class.getName(), jcacheConfiguration);
+            cm.createCache(com.virtus.blog.domain.Body.class.getName() + ".assets", jcacheConfiguration);
+            cm.createCache(com.virtus.blog.domain.Asset.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

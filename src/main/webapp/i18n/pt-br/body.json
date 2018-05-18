@@ -1,0 +1,25 @@
+
+{
+    "jHipsterBlogApp": {
+        "body" : {
+            "home": {
+                "title": "Bodies",
+                "createLabel": "Criar novo Body",
+                "createOrEditLabel": "Criar ou editar Body",
+                "search": "Pesquisar por Body"
+            },
+            "created": "Um novo Body foi criado com o identificador {{ param }}",
+            "updated": "Um Body foi atualizado com o identificador {{ param }}",
+            "deleted": "Um Body foi deletado com o identificador {{ param }}",
+            "delete": {
+                "question": "Tem certeza de que deseja excluir Body {{ id }}?"
+            },
+            "detail": {
+                "title": "Body"
+            },
+            "text": "Text",
+            "asset": "Asset",
+            "post": "Post"
+        }
+    }
+}
