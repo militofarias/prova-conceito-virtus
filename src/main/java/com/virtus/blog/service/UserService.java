@@ -12,6 +12,7 @@ import com.virtus.blog.security.SecurityUtils;
 import com.virtus.blog.service.util.RandomUtil;
 import com.virtus.blog.service.dto.UserDTO;
 
+import com.virtus.blog.web.rest.errors.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -187,31 +188,41 @@ public class UserService {
      * @return updated user
      */
     public Optional<UserDTO> updateUser(UserDTO userDTO) {
-        return Optional.of(userRepository
-            .findOne(userDTO.getId()))
-            .map(user -> {
-                user.setLogin(userDTO.getLogin());
-                user.setFirstName(userDTO.getFirstName());
-                user.setLastName(userDTO.getLastName());
-                user.setEmail(userDTO.getEmail());
-                user.setImageUrl(userDTO.getImageUrl());
-                user.setActivated(userDTO.isActivated());
-                user.setLangKey(userDTO.getLangKey());
-                Set<Authority> managedAuthorities = user.getAuthorities();
-                if(userDTO.getBiography() != null){
-                    user.setBiography((userDTO.getBiography()));
-                }
-                managedAuthorities.clear();
-                userDTO.getAuthorities().stream()
-                    .map(authorityRepository::findOne)
-                    .forEach(managedAuthorities::add);
-                userSearchRepository.save(user);
-                cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLogin());
-                cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).evict(user.getEmail());
-                log.debug("Changed Information for User: {}", user);
-                return user;
-            })
-            .map(UserDTO::new);
+
+        User optionalUserDTO = userRepository
+                .findOne(userDTO.getId());
+
+
+        if(optionalUserDTO == null) {
+            throw new UserNotFoundException();
+        }
+
+        return Optional.of(optionalUserDTO)
+                .map(user -> {
+                    user.setLogin(userDTO.getLogin());
+                    user.setFirstName(userDTO.getFirstName());
+                    user.setLastName(userDTO.getLastName());
+                    user.setEmail(userDTO.getEmail());
+                    user.setImageUrl(userDTO.getImageUrl());
+                    user.setActivated(userDTO.isActivated());
+                    user.setLangKey(userDTO.getLangKey());
+                    Set<Authority> managedAuthorities = user.getAuthorities();
+                    if(userDTO.getBiography() != null){
+                        user.setBiography((userDTO.getBiography()));
+                    }
+                    managedAuthorities.clear();
+                    userDTO.getAuthorities().stream()
+                        .map(authorityRepository::findOne)
+                        .forEach(managedAuthorities::add);
+                    userSearchRepository.save(user);
+                    cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLogin());
+                    cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).evict(user.getEmail());
+                    log.debug("Changed Information for User: {}", user);
+                    return user;
+                })
+                .map(UserDTO::new);
+
+
     }
 
     public void deleteUser(String login) {
