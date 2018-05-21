@@ -7,6 +7,7 @@ import com.virtus.blog.domain.User;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.security.access.annotation.Secured;
 
 import javax.validation.constraints.*;
 import java.time.Instant;
@@ -52,6 +53,8 @@ public class UserDTO {
     private Instant lastModifiedDate;
 
     private Set<String> authorities;
+
+    private String biography;
 
     public UserDTO() {
         // Empty constructor needed for Jackson.
@@ -177,6 +180,14 @@ public class UserDTO {
 
     public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
+    }
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
     }
 
     @Override

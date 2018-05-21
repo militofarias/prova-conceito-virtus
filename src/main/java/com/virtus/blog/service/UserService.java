@@ -198,6 +198,9 @@ public class UserService {
                 user.setActivated(userDTO.isActivated());
                 user.setLangKey(userDTO.getLangKey());
                 Set<Authority> managedAuthorities = user.getAuthorities();
+                if(userDTO.getBiography() != null){
+                    user.setBiography((userDTO.getBiography()));
+                }
                 managedAuthorities.clear();
                 userDTO.getAuthorities().stream()
                     .map(authorityRepository::findOne)

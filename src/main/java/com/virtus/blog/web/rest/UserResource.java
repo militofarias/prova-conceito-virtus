@@ -16,6 +16,7 @@ import com.virtus.blog.web.rest.util.HeaderUtil;
 import com.virtus.blog.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 
+import io.undertow.util.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -210,4 +211,24 @@ public class UserResource {
             .stream(userSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
     }
+
+    /**
+     * PUT /users/biography : Updates an Author Biography.
+     *
+     * @param userDTO the user to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated user
+     */
+    @PutMapping("/users/update-biography")
+    @Timed
+    @Secured({AuthoritiesConstants.AUTHOR, AuthoritiesConstants.ADMIN})
+    public ResponseEntity<UserDTO> updateUserBiography(@Valid @RequestBody UserDTO userDTO) {
+        log.debug("REST request to update User Biograhy : {}", userDTO);
+
+        Optional<UserDTO> updatedUser = userService.updateUser(userDTO);
+
+        return ResponseUtil.wrapOrNotFound(updatedUser,
+            HeaderUtil.createAlert("userManagement.updated", userDTO.getLogin()));
+    }
+
 }
+
