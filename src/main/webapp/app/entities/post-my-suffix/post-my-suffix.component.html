@@ -32,7 +32,7 @@
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="title"><span jhiTranslate="jHipsterBlogApp.post.title">Title</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="date"><span jhiTranslate="jHipsterBlogApp.post.date">Date</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="bodyText"><span jhiTranslate="jHipsterBlogApp.post.body">Body</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="bodyId"><span jhiTranslate="jHipsterBlogApp.post.body">Body</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
@@ -43,7 +43,7 @@
                 <td>{{post.date | date:'medium'}}</td>
                 <td>
                     <div *ngIf="post.bodyId">
-                        <a [routerLink]="['../body-my-suffix', post.bodyId  ]" >{{post.bodyText}}</a>
+                        <a [routerLink]="['../body-my-suffix', post.bodyId  ]" >{{post.bodyId}}</a>
                     </div>
                 </td>
                 <td class="text-right">

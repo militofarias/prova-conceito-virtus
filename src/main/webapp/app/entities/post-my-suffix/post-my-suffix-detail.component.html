@@ -15,7 +15,7 @@
         <dt><span jhiTranslate="jHipsterBlogApp.post.body">Body</span></dt>
         <dd>
             <div *ngIf="post.bodyId">
-                <a [routerLink]="['/body-my-suffix', post.bodyId]">{{post.bodyText}}</a>
+                <a [routerLink]="['/body-my-suffix', post.bodyId]">{{post.bodyId}}</a>
             </div>
         </dd>
     </dl>

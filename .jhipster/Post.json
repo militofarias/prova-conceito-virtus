@@ -5,9 +5,9 @@
             "relationshipType": "one-to-one",
             "relationshipName": "body",
             "otherEntityName": "body",
-            "otherEntityField": "text",
+            "otherEntityField": "id",
             "ownerSide": true,
-            "otherEntityRelationshipName": "post(title)"
+            "otherEntityRelationshipName": "post"
         },
         {
             "relationshipType": "one-to-many",

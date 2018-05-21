@@ -5,16 +5,13 @@
             "relationshipType": "many-to-one",
             "relationshipName": "body",
             "otherEntityName": "body",
-            "otherEntityField": "text"
+            "otherEntityField": "id"
         }
     ],
     "fields": [
         {
             "fieldName": "imagePath",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20180518122419",

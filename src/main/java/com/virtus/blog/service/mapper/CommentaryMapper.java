@@ -12,9 +12,7 @@ import org.mapstruct.*;
 public interface CommentaryMapper extends EntityMapper<CommentaryDTO, Commentary> {
 
     @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "user.login", target = "userLogin")
     @Mapping(source = "post.id", target = "postId")
-    @Mapping(source = "post.title", target = "postTitle")
     CommentaryDTO toDto(Commentary commentary);
 
     @Mapping(source = "userId", target = "user")

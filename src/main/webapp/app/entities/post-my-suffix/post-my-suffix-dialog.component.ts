@@ -34,7 +34,7 @@ export class PostMySuffixDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.bodyService
-            .query({filter: 'post(title)-is-null'})
+            .query({filter: 'post-is-null'})
             .subscribe((res: HttpResponse<BodyMySuffix[]>) => {
                 if (!this.post.bodyId) {
                     this.bodies = res.body;
