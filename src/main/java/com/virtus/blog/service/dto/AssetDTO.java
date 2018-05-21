@@ -1,7 +1,6 @@
 package com.virtus.blog.service.dto;
 
 
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,12 +13,9 @@ public class AssetDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
     private String imagePath;
 
     private Long bodyId;
-
-    private String bodyText;
 
     public Long getId() {
         return id;
@@ -43,14 +39,6 @@ public class AssetDTO implements Serializable {
 
     public void setBodyId(Long bodyId) {
         this.bodyId = bodyId;
-    }
-
-    public String getBodyText() {
-        return bodyText;
-    }
-
-    public void setBodyText(String bodyText) {
-        this.bodyText = bodyText;
     }
 
     @Override

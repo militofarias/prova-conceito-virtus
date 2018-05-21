@@ -23,8 +23,6 @@ public class PostDTO implements Serializable {
 
     private Long bodyId;
 
-    private String bodyText;
-
     public Long getId() {
         return id;
     }
@@ -55,14 +53,6 @@ public class PostDTO implements Serializable {
 
     public void setBodyId(Long bodyId) {
         this.bodyId = bodyId;
-    }
-
-    public String getBodyText() {
-        return bodyText;
-    }
-
-    public void setBodyText(String bodyText) {
-        this.bodyText = bodyText;
     }
 
     @Override

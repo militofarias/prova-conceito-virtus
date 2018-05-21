@@ -143,25 +143,6 @@ public class AssetResourceIntTest {
 
     @Test
     @Transactional
-    public void checkImagePathIsRequired() throws Exception {
-        int databaseSizeBeforeTest = assetRepository.findAll().size();
-        // set the field null
-        asset.setImagePath(null);
-
-        // Create the Asset, which fails.
-        AssetDTO assetDTO = assetMapper.toDto(asset);
-
-        restAssetMockMvc.perform(post("/api/assets")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(assetDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Asset> assetList = assetRepository.findAll();
-        assertThat(assetList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllAssets() throws Exception {
         // Initialize the database
         assetRepository.saveAndFlush(asset);

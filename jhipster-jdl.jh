@@ -1,0 +1,35 @@
+entity Post {
+	title String required
+    date ZonedDateTime required
+}
+
+entity Commentary {
+	text TextBlob required
+}
+
+entity Body {
+	text TextBlob required
+}
+
+entity Asset {
+	imagePath String 
+}
+
+relationship OneToMany {
+	Post{commentary} to Commentary{post}
+	Body{asset} to Asset{body}
+}
+
+relationship OneToOne {
+	Commentary{user} to User
+    Post{body} to Body{post}
+}
+
+paginate Commentary, Post with infinite-scroll
+
+dto * with mapstruct
+// Set service options to all except few
+service Post with serviceClass
+// Set an angular suffix
+angularSuffix * with mySuffix
+
