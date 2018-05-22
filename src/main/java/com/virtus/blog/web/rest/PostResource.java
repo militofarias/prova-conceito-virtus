@@ -2,6 +2,7 @@ package com.virtus.blog.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.virtus.blog.service.PostService;
+import com.virtus.blog.service.dto.RequestPostDTO;
 import com.virtus.blog.web.rest.errors.BadRequestAlertException;
 import com.virtus.blog.web.rest.util.HeaderUtil;
 import com.virtus.blog.web.rest.util.PaginationUtil;
@@ -46,18 +47,17 @@ public class PostResource {
     /**
      * POST  /posts : Create a new post.
      *
-     * @param postDTO the postDTO to create
+     * @param requestPostDTO the postDTO to create
      * @return the ResponseEntity with status 201 (Created) and with body the new postDTO, or with status 400 (Bad Request) if the post has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/posts")
     @Timed
-    public ResponseEntity<PostDTO> createPost(@Valid @RequestBody PostDTO postDTO) throws URISyntaxException {
-        log.debug("REST request to save Post : {}", postDTO);
-        if (postDTO.getId() != null) {
-            throw new BadRequestAlertException("A new post cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        PostDTO result = postService.save(postDTO);
+    public ResponseEntity<PostDTO> createPost(@Valid @RequestBody RequestPostDTO requestPostDTO) throws URISyntaxException {
+        log.debug("REST request to save Post : {}", requestPostDTO);
+
+        PostDTO result = this.postService.createPost(requestPostDTO);
+
         return ResponseEntity.created(new URI("/api/posts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -76,10 +76,10 @@ public class PostResource {
     @Timed
     public ResponseEntity<PostDTO> updatePost(@Valid @RequestBody PostDTO postDTO) throws URISyntaxException {
         log.debug("REST request to update Post : {}", postDTO);
-        if (postDTO.getId() == null) {
-            return createPost(postDTO);
-        }
-        PostDTO result = postService.save(postDTO);
+//        if (postDTO.getId() == null) {
+//            return createPost(postDTO); Veririfcar se deve ficar
+//        }
+        PostDTO result = postService.updatePost(postDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, postDTO.getId().toString()))
             .body(result);

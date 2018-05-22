@@ -12,6 +12,7 @@ import com.virtus.blog.service.dto.UserDTO;
 import com.virtus.blog.web.rest.errors.BadRequestAlertException;
 import com.virtus.blog.web.rest.errors.EmailAlreadyUsedException;
 import com.virtus.blog.web.rest.errors.LoginAlreadyUsedException;
+import com.virtus.blog.web.rest.errors.UserNotFoundException;
 import com.virtus.blog.web.rest.util.HeaderUtil;
 import com.virtus.blog.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -217,6 +218,7 @@ public class UserResource {
      *
      * @param userDTO the user to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated user
+     * @throws UserNotFoundException 400 (Bad Request) if the user id is not found
      */
     @PutMapping("/users/update-biography")
     @Timed
