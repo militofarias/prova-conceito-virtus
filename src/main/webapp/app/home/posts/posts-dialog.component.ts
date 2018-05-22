@@ -7,11 +7,13 @@ import {BodyMySuffixService} from '../../entities/body-my-suffix';
 import {PostsPopupService} from './posts-popup.service';
 import {Post} from './post.model';
 import {Body} from './body.model';
-import {Asset} from "./asset.model";
+import {Asset} from './asset.model';
+import {post} from "selenium-webdriver/http";
 
 @Component({
     selector: 'jhi-post-dialog',
-    templateUrl: './posts-dialog.component.html'
+    templateUrl: './posts-dialog.component.html',
+    styles: ['posts-dialog.scss']
 })
 export class PostsDialogComponent implements OnInit {
 
@@ -30,7 +32,6 @@ export class PostsDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-
     }
 
     clear() {
@@ -43,14 +44,17 @@ export class PostsDialogComponent implements OnInit {
     }
 
     setFileData(event, entity, field, isImage) {
-
-        let asset : Asset = new Asset();
-
+        const asset = new Asset();
         this.dataUtils.setFileData(event, asset, field, isImage);
-
-        entity.push(asset)
+        console.log(event);
+        console.log(field);
+        entity.push(asset);
+        console.log(entity)
     }
 
+    removeAsset(asset) {
+        this.newPost.body.assets = this.newPost.body.assets.filter(obj => obj.image !== asset.image );
+    }
 }
 
 @Component({

@@ -32,15 +32,20 @@
 
         <div class="form-group">
             <label class="form-control-label" for="field_asset">Assets</label>
-            <div *ngFor="let asset of newPost.body.assets">
-                <img [src]="'data:' + asset.imageContentType + ';base64,' + asset.image" style="max-height: 100px;" *ngIf="asset" alt="photo image"/>
-                <div *ngIf="asset" class="form-text text-danger clearfix">
-                    <button type="button" (click)="clearInputImage('image', 'imageContentType', 'fileImage')" class="btn btn-secondary btn-xs pull-right">
-                        <span class="fa fa-times"></span>
-                    </button>
+            <br/>
+            <div class="container">
+                <div class="row divider" *ngFor="let asset of newPost.body.assets">
+                    <div class="col-sm-2" style="margin-bottom: 10px">
+                        <div *ngIf="asset" class="form-text text-danger clearfix">
+                            <button type="button" (click)="removeAsset(asset)" class="btn btn-secondary btn-sm pull-right">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <img [src]="'data:' + asset.imageContentType + ';base64,' + asset.image" style="max-height: 50px;" *ngIf="asset" alt="photo image"/>
+                    </div>
                 </div>
+                <input type="file" id="field_asset" (change)="setFileData($event, newPost.body.assets, 'image', false)" accept="image/*,video/*"/>
             </div>
-            <input type="file" id="field_asset" (change)="setFileData($event, newPost.body.assets, 'image', true)" accept="image/*"/>
         </div>
     </div>
     <div class="modal-footer">

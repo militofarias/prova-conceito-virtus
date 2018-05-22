@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
-import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {ActivatedRoute} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
+import {JhiAlertService, JhiEventManager, JhiParseLinks} from 'ng-jhipster';
 
-import { ITEMS_PER_PAGE } from '../../shared';
+import {ITEMS_PER_PAGE} from '../../shared';
 import {PostMySuffix, PostMySuffixService} from '../../entities/post-my-suffix';
 
 @Component({
@@ -26,6 +26,8 @@ export class PostsComponent implements OnInit, OnDestroy {
     reverse: any;
     totalItems: number;
     currentSearch: string;
+    inputComment = false;
+    commentaries = [];
 
     constructor(
         private postService: PostMySuffixService,
@@ -44,6 +46,13 @@ export class PostsComponent implements OnInit, OnDestroy {
         this.reverse = true;
         this.currentSearch = this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ?
             this.activatedRoute.snapshot.params['search'] : '';
+
+        for (let i = 0; i < 10; i++) {
+            this.commentaries.push({
+                author: `lorem ${i}`,
+                text: 'ipsum'
+            });
+        }
     }
 
     loadAll() {
@@ -137,5 +146,9 @@ export class PostsComponent implements OnInit, OnDestroy {
 
     private onError(error) {
         this.jhiAlertService.error(error.message, null, null);
+    }
+
+    public showInputComment() {
+        this.inputComment = !this.inputComment;
     }
 }
