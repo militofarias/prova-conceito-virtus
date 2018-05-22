@@ -3,6 +3,7 @@ package com.virtus.blog;
 import com.virtus.blog.config.ApplicationProperties;
 import com.virtus.blog.config.DefaultProfileUtil;
 
+import com.virtus.blog.storage.FileStorageProperties;
 import io.github.jhipster.config.JHipsterConstants;
 
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ import java.util.Collection;
 
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
-@EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
+@EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class, FileStorageProperties.class})
 @EnableDiscoveryClient
 public class JHipsterBlogApp {
 

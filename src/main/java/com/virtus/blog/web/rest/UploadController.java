@@ -1,5 +1,6 @@
 package com.virtus.blog.web.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,9 @@ public class UploadController {
 
     // Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "/home/militofarias/Documents/image/";
+
+    @Autowired
+    private FileStorageService fileStorageService;
 
     @GetMapping("/image")
     public String index() {
