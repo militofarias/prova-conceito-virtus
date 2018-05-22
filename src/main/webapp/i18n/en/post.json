@@ -21,6 +21,9 @@
             "date": "Date",
             "body": "Body",
             "commentary": "Commentary"
+        },
+        "createPost": {
+
         }
     }
 }

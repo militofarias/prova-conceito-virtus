@@ -1,7 +1,7 @@
 <div>
     <h2>
         <span jhiTranslate="jHipsterBlogApp.post.home.title">Posts</span>
-        <button *jhiHasAnyAuthority="'ROLE_USER'" class="btn btn-primary float-right jh-create-entity create-post-my-suffix" [routerLink]="['/', { outlets: { popup: ['post-my-suffix-new'] } }]">
+        <button *jhiHasAnyAuthority="'ROLE_USER'" class="btn btn-primary float-right jh-create-entity create-post-my-suffix" [routerLink]="['/', { outlets: { popup: ['post-new'] } }]">
             <span class="fa fa-plus"></span>
             <span class="hidden-sm-down"  jhiTranslate="jHipsterBlogApp.post.home.createLabel">
             Create new Post

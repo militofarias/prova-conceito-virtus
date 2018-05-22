@@ -4,20 +4,30 @@ import { RouterModule } from '@angular/router';
 import { JHipsterBlogSharedModule } from '../shared';
 
 import { HOME_ROUTE, HomeComponent } from './';
-import {PostsComponent} from './posts';
+import {
+    PostsComponent,
+    postPopupRoute,
+    PostsPopupComponent,
+    PostsPopupService,
+    PostsDialogComponent
+} from './posts';
 
 @NgModule({
     imports: [
         JHipsterBlogSharedModule,
-        RouterModule.forChild([ HOME_ROUTE ])
+        RouterModule.forChild([ HOME_ROUTE, ...postPopupRoute ])
     ],
     declarations: [
         HomeComponent,
-        PostsComponent
+        PostsComponent,
+        PostsPopupComponent,
+        PostsDialogComponent
     ],
     entryComponents: [
+        PostsDialogComponent
     ],
     providers: [
+        PostsPopupService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
