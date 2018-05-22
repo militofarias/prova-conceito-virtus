@@ -1,9 +1,11 @@
 package com.virtus.blog.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.virtus.blog.domain.Body;
+import com.virtus.blog.repository.BodyRepository;
+import com.virtus.blog.security.AuthoritiesConstants;
 import com.virtus.blog.service.PostService;
 import com.virtus.blog.service.dto.RequestPostDTO;
-import com.virtus.blog.web.rest.errors.BadRequestAlertException;
 import com.virtus.blog.web.rest.util.HeaderUtil;
 import com.virtus.blog.web.rest.util.PaginationUtil;
 import com.virtus.blog.service.dto.PostDTO;
@@ -15,17 +17,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Post.
@@ -40,8 +41,12 @@ public class PostResource {
 
     private final PostService postService;
 
-    public PostResource(PostService postService) {
+    private final BodyRepository bodyRepository;
+
+    public PostResource(PostService postService, BodyRepository bodyRepository) {
+
         this.postService = postService;
+        this.bodyRepository = bodyRepository;
     }
 
     /**
@@ -53,6 +58,7 @@ public class PostResource {
      */
     @PostMapping("/posts")
     @Timed
+    @Secured({AuthoritiesConstants.AUTHOR, AuthoritiesConstants.ADMIN})
     public ResponseEntity<PostDTO> createPost(@Valid @RequestBody RequestPostDTO requestPostDTO) throws URISyntaxException {
         log.debug("REST request to save Post : {}", requestPostDTO);
 
@@ -97,8 +103,9 @@ public class PostResource {
         log.debug("REST request to get a page of Posts");
         Page<PostDTO> page = postService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/posts");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(postService.getPostDTOFormat(page), headers, HttpStatus.OK);
     }
+
 
     /**
      * GET  /posts/:id : get the "id" post.
@@ -142,7 +149,7 @@ public class PostResource {
         log.debug("REST request to search for a page of Posts for query {}", query);
         Page<PostDTO> page = postService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/posts");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(postService.getPostDTOFormat(page), headers, HttpStatus.OK);
     }
 
 }

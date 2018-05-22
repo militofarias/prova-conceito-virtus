@@ -107,7 +107,7 @@ public class PostService {
     /**
      * Search for the post corresponding to the query.
      *
-     * @param query the query of the search
+     * @param query    the query of the search
      * @param pageable the pagination information
      * @return the list of entities
      */
@@ -149,7 +149,8 @@ public class PostService {
         postDTO.setTitle(requestPostDTO.getTitle());
         postDTO.setDate(requestPostDTO.getDate());
         postDTO = this.save(postDTO);
-        postDTO.setBodyId(this.createBody(requestPostDTO, postDTO).getId());
+        Body body = (this.createBody(requestPostDTO, postDTO));
+        postDTO.setBodyId(body.getId());
 
         return this.updatePost(postDTO);
     }
@@ -158,7 +159,7 @@ public class PostService {
      * Create a body.
      *
      * @param requestPostDTO the request data to create Post
-     * @param postDTO the post being generated
+     * @param postDTO        the post being generated
      * @return the created body
      */
     private Body createBody(RequestPostDTO requestPostDTO, PostDTO postDTO) {
@@ -176,13 +177,13 @@ public class PostService {
      * Create a assets list.
      *
      * @param requestPostDTO the request data to create Post
-     * @param body the body being generated
+     * @param body           the body being generated
      * @return the assets list
      */
     private Set<Asset> createAsset(RequestPostDTO requestPostDTO, Body body) {
 
         Set<Asset> assets = new HashSet<>();
-        for (String asset : requestPostDTO.getAssets()){
+        for (String asset : requestPostDTO.getAssets()) {
             Asset newAsset = new Asset();
             newAsset.setImagePath(asset);
             newAsset.setBody(body);
@@ -191,5 +192,46 @@ public class PostService {
         }
 
         return assets;
+    }
+
+
+    /**
+     * Get all assets from sent body
+     *
+     * @param page the postDTO page
+     * @return the postDTO list
+     */
+    public List<PostDTO> getPostDTOFormat(Page<PostDTO> page) {
+
+        List<PostDTO> pagesToReturn = new ArrayList<>();
+        for (PostDTO post : page.getContent()) {
+            PostDTO postDTO = new PostDTO();
+            Body body = bodyRepository.findOne(post.getBodyId());
+            postDTO.setTextBody(body.getText());
+            postDTO.setAssets(this.getAssets(body.getId()));
+            postDTO.setTitle(post.getTitle());
+            postDTO.setDate(post.getDate());
+            postDTO.setBodyId(post.getBodyId());
+            postDTO.setId(post.getId());
+            pagesToReturn.add(postDTO);
+        }
+        return pagesToReturn;
+    }
+
+    /**
+     * Get all assets from sent body
+     *
+     * @param bodyId the body id with assets
+     * @return the assets list
+     */
+    private List<String> getAssets(Long bodyId) {
+
+        Body body = bodyRepository.findOne(bodyId);
+        List<String> listToReturn = new ArrayList<>();
+
+        for (Asset asset : body.getAssets()) {
+            listToReturn.add(asset.getImagePath());
+        }
+        return listToReturn;
     }
 }
