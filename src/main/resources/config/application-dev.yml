@@ -28,6 +28,11 @@ eureka:
             defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
 
 spring:
+    http:
+        multipart:
+            enabled: true
+            max-file-size: 1000MB
+            max-request-size: 10000MB
     profiles:
         active: dev
         include: swagger
