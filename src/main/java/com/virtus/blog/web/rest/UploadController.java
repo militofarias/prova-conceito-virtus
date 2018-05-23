@@ -3,7 +3,9 @@ package com.virtus.blog.web.rest;
 import com.virtus.blog.service.FileStorageService;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.virtus.blog.service.dto.UploadFileResponse;
 import com.virtus.blog.storage.StorageFileNotFoundException;
@@ -29,15 +31,13 @@ public class UploadController {
         this.storageService = storageService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/filelist")
     public String listUploadedFiles(Model model) throws IOException {
 
-        model.addAttribute("files", storageService.loadAll().map(
+        return model.addAttribute("files", storageService.loadAll().map(
             path -> MvcUriComponentsBuilder.fromMethodName(UploadController.class,
                 "serveFile", path.getFileName().toString()).build().toString())
-            .collect(Collectors.toList()));
-
-        return "uploadForm";
+            .collect(Collectors.toList())).toString();
     }
 
     @GetMapping("/imagefile/{filename:.+}")
