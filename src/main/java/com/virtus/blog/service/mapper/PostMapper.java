@@ -8,14 +8,17 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity Post and its DTO PostDTO.
  */
-@Mapper(componentModel = "spring", uses = {BodyMapper.class})
+@Mapper(componentModel = "spring", uses = {BodyMapper.class, UserMapper.class})
 public interface PostMapper extends EntityMapper<PostDTO, Post> {
 
     @Mapping(source = "body.id", target = "bodyId")
+    @Mapping(source = "author.id", target = "authorId")
+    @Mapping(source = "author.login", target = "authorLogin")
     PostDTO toDto(Post post);
 
     @Mapping(source = "bodyId", target = "body")
     @Mapping(target = "commentaries", ignore = true)
+    @Mapping(source = "authorId", target = "author")
     Post toEntity(PostDTO postDTO);
 
     default Post fromId(Long id) {

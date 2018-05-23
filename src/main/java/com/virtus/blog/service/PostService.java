@@ -3,9 +3,11 @@ package com.virtus.blog.service;
 import com.virtus.blog.domain.Asset;
 import com.virtus.blog.domain.Body;
 import com.virtus.blog.domain.Post;
+import com.virtus.blog.domain.User;
 import com.virtus.blog.repository.AssetRepository;
 import com.virtus.blog.repository.BodyRepository;
 import com.virtus.blog.repository.PostRepository;
+import com.virtus.blog.repository.UserRepository;
 import com.virtus.blog.repository.search.PostSearchRepository;
 import com.virtus.blog.service.dto.PostDTO;
 import com.virtus.blog.service.dto.RequestPostDTO;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.time.ZonedDateTime;
 import java.util.*;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -40,16 +43,21 @@ public class PostService {
 
     private final PostMapper postMapper;
 
+    private final UserService userService;
+
+    private final UserRepository userRepository;
 
     private final PostSearchRepository postSearchRepository;
 
     public PostService(PostRepository postRepository, PostMapper postMapper, PostSearchRepository postSearchRepository,
-                       AssetRepository assetRepository, BodyRepository bodyRepository) {
+                       AssetRepository assetRepository, BodyRepository bodyRepository, UserService userService, UserRepository userRepository) {
         this.postRepository = postRepository;
         this.postMapper = postMapper;
         this.postSearchRepository = postSearchRepository;
         this.assetRepository = assetRepository;
         this.bodyRepository = bodyRepository;
+        this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -147,10 +155,17 @@ public class PostService {
 
         PostDTO postDTO = new PostDTO();
         postDTO.setTitle(requestPostDTO.getTitle());
-        postDTO.setDate(requestPostDTO.getDate());
+        postDTO.setDate(ZonedDateTime.now());
         postDTO = this.save(postDTO);
         Body body = (this.createBody(requestPostDTO, postDTO));
         postDTO.setBodyId(body.getId());
+
+        Optional<User> optionalUser = userService.getUserWithAuthorities();
+
+        if (optionalUser.isPresent()) {
+            postDTO.setAuthorId(optionalUser.get().getId());
+            postDTO.setAuthorLogin(optionalUser.get().getLogin());
+        }
 
         return this.updatePost(postDTO);
     }
@@ -207,12 +222,13 @@ public class PostService {
         for (PostDTO post : page.getContent()) {
             PostDTO postDTO = new PostDTO();
             Body body = bodyRepository.findOne(post.getBodyId());
-            postDTO.setTextBody(body.getText());
+            postDTO.setBodyText(body.getText());
             postDTO.setAssets(this.getAssets(body.getId()));
             postDTO.setTitle(post.getTitle());
             postDTO.setDate(post.getDate());
             postDTO.setBodyId(post.getBodyId());
             postDTO.setId(post.getId());
+            postDTO.setAuthorLogin(post.getAuthorLogin());
             pagesToReturn.add(postDTO);
         }
         return pagesToReturn;

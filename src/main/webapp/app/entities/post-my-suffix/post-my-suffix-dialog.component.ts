@@ -10,6 +10,7 @@ import { PostMySuffix } from './post-my-suffix.model';
 import { PostMySuffixPopupService } from './post-my-suffix-popup.service';
 import { PostMySuffixService } from './post-my-suffix.service';
 import { BodyMySuffix, BodyMySuffixService } from '../body-my-suffix';
+import { User, UserService } from '../../shared';
 
 @Component({
     selector: 'jhi-post-my-suffix-dialog',
@@ -22,11 +23,14 @@ export class PostMySuffixDialogComponent implements OnInit {
 
     bodies: BodyMySuffix[];
 
+    users: User[];
+
     constructor(
         public activeModal: NgbActiveModal,
         private jhiAlertService: JhiAlertService,
         private postService: PostMySuffixService,
         private bodyService: BodyMySuffixService,
+        private userService: UserService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -46,6 +50,8 @@ export class PostMySuffixDialogComponent implements OnInit {
                         }, (subRes: HttpErrorResponse) => this.onError(subRes.message));
                 }
             }, (res: HttpErrorResponse) => this.onError(res.message));
+        this.userService.query()
+            .subscribe((res: HttpResponse<User[]>) => { this.users = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     clear() {
@@ -83,6 +89,10 @@ export class PostMySuffixDialogComponent implements OnInit {
     }
 
     trackBodyById(index: number, item: BodyMySuffix) {
+        return item.id;
+    }
+
+    trackUserById(index: number, item: User) {
         return item.id;
     }
 }

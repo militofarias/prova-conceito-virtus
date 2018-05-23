@@ -20,10 +20,8 @@
             "title": "Title",
             "date": "Date",
             "body": "Body",
-            "commentary": "Commentary"
-        },
-        "createPost": {
-
+            "commentary": "Commentary",
+            "author": "Author"
         }
     }
 }

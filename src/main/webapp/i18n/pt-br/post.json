@@ -20,7 +20,8 @@
             "title": "Title",
             "date": "Date",
             "body": "Body",
-            "commentary": "Commentary"
+            "commentary": "Commentary",
+            "author": "Author"
         }
     }
 }

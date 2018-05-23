@@ -1,0 +1,25 @@
+
+{
+    "jHipsterBlogApp": {
+        "author" : {
+            "home": {
+                "title": "Authors",
+                "createLabel": "Criar novo Author",
+                "createOrEditLabel": "Criar ou editar Author",
+                "search": "Pesquisar por Author"
+            },
+            "created": "Um novo Author foi criado com o identificador {{ param }}",
+            "updated": "Um Author foi atualizado com o identificador {{ param }}",
+            "deleted": "Um Author foi deletado com o identificador {{ param }}",
+            "delete": {
+                "question": "Tem certeza de que deseja excluir Author {{ id }}?"
+            },
+            "detail": {
+                "title": "Author"
+            },
+            "biography": "Biography",
+            "user": "User",
+            "post": "Post"
+        }
+    }
+}

@@ -9,7 +9,8 @@ import {
     postPopupRoute,
     PostsPopupComponent,
     PostsPopupService,
-    PostsDialogComponent
+    PostsDialogComponent,
+    PostService
 } from './posts';
 
 @NgModule({
@@ -27,7 +28,8 @@ import {
         PostsDialogComponent
     ],
     providers: [
-        PostsPopupService
+        PostsPopupService,
+        PostService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -1,0 +1,30 @@
+
+<div *ngIf="author">
+    <h2><span jhiTranslate="jHipsterBlogApp.author.detail.title">Author</span> {{author.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jHipsterBlogApp.author.biography">Biography</span></dt>
+        <dd>
+            <span>{{author.biography}}</span>
+        </dd>
+        <dt><span jhiTranslate="jHipsterBlogApp.author.user">User</span></dt>
+        <dd>
+            {{author.userLogin}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'author/'+ author.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

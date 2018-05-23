@@ -5,7 +5,10 @@ export class Post implements BaseEntity {
     constructor(
         public id?: number,
         public title?: string,
-        public body?: Body,
+        public bodyText?: string,
+        public date?: Date,
+        public assets?: string[],
+        public authorLogin?: string
     ) {
     }
 }

@@ -18,6 +18,10 @@
                 <a [routerLink]="['/body-my-suffix', post.bodyId]">{{post.bodyId}}</a>
             </div>
         </dd>
+        <dt><span jhiTranslate="jHipsterBlogApp.post.author">Author</span></dt>
+        <dd>
+            {{post.authorLogin}}
+        </dd>
     </dl>
 
     <button type="submit"

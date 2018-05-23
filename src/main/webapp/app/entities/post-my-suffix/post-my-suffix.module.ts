@@ -2,6 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { JHipsterBlogSharedModule } from '../../shared';
+import { JHipsterBlogAdminModule } from '../../admin/admin.module';
 import {
     PostMySuffixService,
     PostMySuffixPopupService,
@@ -23,6 +24,7 @@ const ENTITY_STATES = [
 @NgModule({
     imports: [
         JHipsterBlogSharedModule,
+        JHipsterBlogAdminModule,
         RouterModule.forChild(ENTITY_STATES)
     ],
     declarations: [

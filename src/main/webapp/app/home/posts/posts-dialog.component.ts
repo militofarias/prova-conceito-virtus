@@ -9,6 +9,10 @@ import {Post} from './post.model';
 import {Body} from './body.model';
 import {Asset} from './asset.model';
 import {post} from "selenium-webdriver/http";
+import {PostService} from "./posts.service";
+import {PostMySuffix} from "../../entities/post-my-suffix/post-my-suffix.model";
+import {Observable} from "rxjs/Observable";
+import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 
 @Component({
     selector: 'jhi-post-dialog',
@@ -17,14 +21,14 @@ import {post} from "selenium-webdriver/http";
 })
 export class PostsDialogComponent implements OnInit {
 
-    newPost: Post = new Post(0, '', new Body(0, '', []));
+    newPost: Post = new Post();
     isSaving: boolean;
 
     constructor(
         public activeModal: NgbActiveModal,
         private dataUtils: JhiDataUtils,
         private jhiAlertService: JhiAlertService,
-        private postService: PostMySuffixService,
+        private postService: PostService,
         private bodyService: BodyMySuffixService,
         private eventManager: JhiEventManager
     ) {
@@ -40,7 +44,24 @@ export class PostsDialogComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+        this.newPost.date = new Date();
+        this.subscribeToSaveResponse(
+            this.postService.create(this.newPost));
+    }
 
+    private subscribeToSaveResponse(result: Observable<HttpResponse<PostMySuffix>>) {
+        result.subscribe((res: HttpResponse<PostMySuffix>) =>
+            this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
+    }
+
+    private onSaveSuccess(result: PostMySuffix) {
+        this.eventManager.broadcast({ name: 'postListModification', content: 'OK'});
+        this.isSaving = false;
+        this.activeModal.dismiss(result);
+    }
+
+    private onSaveError() {
+        this.isSaving = false;
     }
 
     setFileData(event, entity, field, isImage) {
@@ -53,7 +74,7 @@ export class PostsDialogComponent implements OnInit {
     }
 
     removeAsset(asset) {
-        this.newPost.body.assets = this.newPost.body.assets.filter(obj => obj.image !== asset.image );
+        this.newPost.assets = this.newPost.assets.filter(obj => obj !== asset );
     }
 }
 

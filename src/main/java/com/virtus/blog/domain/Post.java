@@ -47,6 +47,9 @@ public class Post implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Commentary> commentaries = new HashSet<>();
 
+    @ManyToOne
+    private User author;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -118,6 +121,19 @@ public class Post implements Serializable {
 
     public void setCommentaries(Set<Commentary> commentaries) {
         this.commentaries = commentaries;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public Post author(User user) {
+        this.author = user;
+        return this;
+    }
+
+    public void setAuthor(User user) {
+        this.author = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

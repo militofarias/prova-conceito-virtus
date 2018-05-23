@@ -6,39 +6,39 @@ import { Observable } from 'rxjs/Observable';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { JHipsterBlogTestModule } from '../../../test.module';
-import { PostMySuffixDialogComponent } from '../../../../../../main/webapp/app/entities/post-my-suffix/post-my-suffix-dialog.component';
-import { PostMySuffixService } from '../../../../../../main/webapp/app/entities/post-my-suffix/post-my-suffix.service';
-import { PostMySuffix } from '../../../../../../main/webapp/app/entities/post-my-suffix/post-my-suffix.model';
-import { BodyMySuffixService } from '../../../../../../main/webapp/app/entities/body-my-suffix';
+import { AuthorDialogComponent } from '../../../../../../main/webapp/app/entities/author/author-dialog.component';
+import { AuthorService } from '../../../../../../main/webapp/app/entities/author/author.service';
+import { Author } from '../../../../../../main/webapp/app/entities/author/author.model';
 import { UserService } from '../../../../../../main/webapp/app/shared';
+import { PostMySuffixService } from '../../../../../../main/webapp/app/entities/post-my-suffix';
 
 describe('Component Tests', () => {
 
-    describe('PostMySuffix Management Dialog Component', () => {
-        let comp: PostMySuffixDialogComponent;
-        let fixture: ComponentFixture<PostMySuffixDialogComponent>;
-        let service: PostMySuffixService;
+    describe('Author Management Dialog Component', () => {
+        let comp: AuthorDialogComponent;
+        let fixture: ComponentFixture<AuthorDialogComponent>;
+        let service: AuthorService;
         let mockEventManager: any;
         let mockActiveModal: any;
 
         beforeEach(async(() => {
             TestBed.configureTestingModule({
                 imports: [JHipsterBlogTestModule],
-                declarations: [PostMySuffixDialogComponent],
+                declarations: [AuthorDialogComponent],
                 providers: [
-                    BodyMySuffixService,
                     UserService,
-                    PostMySuffixService
+                    PostMySuffixService,
+                    AuthorService
                 ]
             })
-            .overrideTemplate(PostMySuffixDialogComponent, '')
+            .overrideTemplate(AuthorDialogComponent, '')
             .compileComponents();
         }));
 
         beforeEach(() => {
-            fixture = TestBed.createComponent(PostMySuffixDialogComponent);
+            fixture = TestBed.createComponent(AuthorDialogComponent);
             comp = fixture.componentInstance;
-            service = fixture.debugElement.injector.get(PostMySuffixService);
+            service = fixture.debugElement.injector.get(AuthorService);
             mockEventManager = fixture.debugElement.injector.get(JhiEventManager);
             mockActiveModal = fixture.debugElement.injector.get(NgbActiveModal);
         });
@@ -48,9 +48,9 @@ describe('Component Tests', () => {
                 inject([],
                     fakeAsync(() => {
                         // GIVEN
-                        const entity = new PostMySuffix(123);
+                        const entity = new Author(123);
                         spyOn(service, 'update').and.returnValue(Observable.of(new HttpResponse({body: entity})));
-                        comp.post = entity;
+                        comp.author = entity;
                         // WHEN
                         comp.save();
                         tick(); // simulate async
@@ -58,7 +58,7 @@ describe('Component Tests', () => {
                         // THEN
                         expect(service.update).toHaveBeenCalledWith(entity);
                         expect(comp.isSaving).toEqual(false);
-                        expect(mockEventManager.broadcastSpy).toHaveBeenCalledWith({ name: 'postListModification', content: 'OK'});
+                        expect(mockEventManager.broadcastSpy).toHaveBeenCalledWith({ name: 'authorListModification', content: 'OK'});
                         expect(mockActiveModal.dismissSpy).toHaveBeenCalled();
                     })
                 )
@@ -68,9 +68,9 @@ describe('Component Tests', () => {
                 inject([],
                     fakeAsync(() => {
                         // GIVEN
-                        const entity = new PostMySuffix();
+                        const entity = new Author();
                         spyOn(service, 'create').and.returnValue(Observable.of(new HttpResponse({body: entity})));
-                        comp.post = entity;
+                        comp.author = entity;
                         // WHEN
                         comp.save();
                         tick(); // simulate async
@@ -78,7 +78,7 @@ describe('Component Tests', () => {
                         // THEN
                         expect(service.create).toHaveBeenCalledWith(entity);
                         expect(comp.isSaving).toEqual(false);
-                        expect(mockEventManager.broadcastSpy).toHaveBeenCalledWith({ name: 'postListModification', content: 'OK'});
+                        expect(mockEventManager.broadcastSpy).toHaveBeenCalledWith({ name: 'authorListModification', content: 'OK'});
                         expect(mockActiveModal.dismissSpy).toHaveBeenCalled();
                     })
                 )

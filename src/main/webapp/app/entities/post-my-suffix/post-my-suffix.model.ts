@@ -7,6 +7,8 @@ export class PostMySuffix implements BaseEntity {
         public date?: any,
         public bodyId?: number,
         public commentaries?: BaseEntity[],
+        public authorLogin?: string,
+        public authorId?: number,
     ) {
     }
 }

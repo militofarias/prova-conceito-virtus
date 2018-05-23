@@ -7,11 +7,6 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!post.id">
-            <label for="id" jhiTranslate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                   [(ngModel)]="post.id" readonly />
-        </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jHipsterBlogApp.post.title" for="field_title">Title</label>
             <input type="text" class="form-control" name="title" id="field_title"
@@ -27,14 +22,14 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jHipsterBlogApp.post.body" for="field_body">Body</label>
             <textarea type="text" class="form-control" aria-label="With textarea" name="title" id="field_body"
-                      [(ngModel)]="newPost.body.text" required></textarea>
+                      [(ngModel)]="newPost.bodyText" required></textarea>
         </div>
 
         <div class="form-group">
             <label class="form-control-label" for="field_asset">Assets</label>
             <br/>
             <div class="container">
-                <div class="row divider" *ngFor="let asset of newPost.body.assets">
+                <div class="row divider" *ngFor="let asset of newPost.assets">
                     <div class="col-sm-2" style="margin-bottom: 10px">
                         <div *ngIf="asset" class="form-text text-danger clearfix">
                             <button type="button" (click)="removeAsset(asset)" class="btn btn-secondary btn-sm pull-right">
@@ -44,7 +39,7 @@
                         <img [src]="'data:' + asset.imageContentType + ';base64,' + asset.image" style="max-height: 50px;" *ngIf="asset" alt="photo image"/>
                     </div>
                 </div>
-                <input type="file" id="field_asset" (change)="setFileData($event, newPost.body.assets, 'image', false)" accept="image/*,video/*"/>
+                <input type="file" id="field_asset" (change)="setFileData($event, newPost.assets, 'image', false)" accept="image/*,video/*"/>
             </div>
         </div>
     </div>

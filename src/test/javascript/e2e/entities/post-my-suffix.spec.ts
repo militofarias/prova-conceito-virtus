@@ -38,6 +38,7 @@ describe('Post e2e test', () => {
         postDialogPage.setDateInput(12310020012301);
         expect(postDialogPage.getDateInput()).toMatch('2001-12-31T02:30');
         postDialogPage.bodySelectLastOption();
+        postDialogPage.authorSelectLastOption();
         postDialogPage.save();
         expect(postDialogPage.getSaveButton().isPresent()).toBeFalsy();
     });
@@ -67,6 +68,7 @@ export class PostDialogPage {
     titleInput = element(by.css('input#field_title'));
     dateInput = element(by.css('input#field_date'));
     bodySelect = element(by.css('select#field_body'));
+    authorSelect = element(by.css('select#field_author'));
 
     getModalTitle() {
         return this.modalTitle.getAttribute('jhiTranslate');
@@ -102,6 +104,22 @@ export class PostDialogPage {
 
     getBodySelectedOption = function() {
         return this.bodySelect.element(by.css('option:checked')).getText();
+    };
+
+    authorSelectLastOption = function() {
+        this.authorSelect.all(by.tagName('option')).last().click();
+    };
+
+    authorSelectOption = function(option) {
+        this.authorSelect.sendKeys(option);
+    };
+
+    getAuthorSelect = function() {
+        return this.authorSelect;
+    };
+
+    getAuthorSelectedOption = function() {
+        return this.authorSelect.element(by.css('option:checked')).getText();
     };
 
     save() {

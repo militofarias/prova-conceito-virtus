@@ -1,23 +1,21 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
-import {JhiAlertService, JhiEventManager, JhiParseLinks} from 'ng-jhipster';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import {ITEMS_PER_PAGE} from '../../shared';
-import {Post} from "./post.model";
-import {PostService} from "./posts.service";
+import { Author } from './author.model';
+import { AuthorService } from './author.service';
+import { ITEMS_PER_PAGE, Principal } from '../../shared';
 
 @Component({
-    selector: 'jhi-posts',
-    templateUrl: './posts.component.html',
-    styleUrls: [
-        'posts.scss'
-    ]
+    selector: 'jhi-author',
+    templateUrl: './author.component.html'
 })
-export class PostsComponent implements OnInit, OnDestroy {
+export class AuthorComponent implements OnInit, OnDestroy {
 
-    posts: Post[];
+    authors: Author[];
+    currentAccount: any;
     eventSubscriber: Subscription;
     itemsPerPage: number;
     links: any;
@@ -27,17 +25,16 @@ export class PostsComponent implements OnInit, OnDestroy {
     reverse: any;
     totalItems: number;
     currentSearch: string;
-    inputComment = false;
-    commentaries = [];
 
     constructor(
-        private postService: PostService,
+        private authorService: AuthorService,
         private jhiAlertService: JhiAlertService,
         private eventManager: JhiEventManager,
         private parseLinks: JhiParseLinks,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        private principal: Principal
     ) {
-        this.posts = [];
+        this.authors = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.page = 0;
         this.links = {
@@ -47,41 +44,34 @@ export class PostsComponent implements OnInit, OnDestroy {
         this.reverse = true;
         this.currentSearch = this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ?
             this.activatedRoute.snapshot.params['search'] : '';
-
-        for (let i = 0; i < 2; i++) {
-            this.commentaries.push({
-                author: `lorem ${i}`,
-                text: 'ipsum'
-            });
-        }
     }
 
     loadAll() {
         if (this.currentSearch) {
-            this.postService.search({
+            this.authorService.search({
                 query: this.currentSearch,
                 page: this.page,
                 size: this.itemsPerPage,
                 sort: this.sort()
             }).subscribe(
-                (res: HttpResponse<Post[]>) => this.onSuccess(res.body, res.headers),
+                (res: HttpResponse<Author[]>) => this.onSuccess(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
             return;
         }
-        this.postService.query({
+        this.authorService.query({
             page: this.page,
             size: this.itemsPerPage,
             sort: this.sort()
         }).subscribe(
-            (res: HttpResponse<Post[]>) => this.onSuccess(res.body, res.headers),
+            (res: HttpResponse<Author[]>) => this.onSuccess(res.body, res.headers),
             (res: HttpErrorResponse) => this.onError(res.message)
         );
     }
 
     reset() {
         this.page = 0;
-        this.posts = [];
+        this.authors = [];
         this.loadAll();
     }
 
@@ -91,7 +81,7 @@ export class PostsComponent implements OnInit, OnDestroy {
     }
 
     clear() {
-        this.posts = [];
+        this.authors = [];
         this.links = {
             last: 0
         };
@@ -106,7 +96,7 @@ export class PostsComponent implements OnInit, OnDestroy {
         if (!query) {
             return this.clear();
         }
-        this.posts = [];
+        this.authors = [];
         this.links = {
             last: 0
         };
@@ -118,15 +108,21 @@ export class PostsComponent implements OnInit, OnDestroy {
     }
     ngOnInit() {
         this.loadAll();
-        this.registerChangeInPosts();
+        this.principal.identity().then((account) => {
+            this.currentAccount = account;
+        });
+        this.registerChangeInAuthors();
     }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    registerChangeInPosts() {
-        this.eventSubscriber = this.eventManager.subscribe('postListModification', (response) => this.reset());
+    trackId(index: number, item: Author) {
+        return item.id;
+    }
+    registerChangeInAuthors() {
+        this.eventSubscriber = this.eventManager.subscribe('authorListModification', (response) => this.reset());
     }
 
     sort() {
@@ -141,15 +137,11 @@ export class PostsComponent implements OnInit, OnDestroy {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         for (let i = 0; i < data.length; i++) {
-            this.posts.push(data[i]);
+            this.authors.push(data[i]);
         }
     }
 
     private onError(error) {
         this.jhiAlertService.error(error.message, null, null);
-    }
-
-    public showInputComment() {
-        this.inputComment = !this.inputComment;
     }
 }

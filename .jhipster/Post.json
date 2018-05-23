@@ -14,6 +14,14 @@
             "relationshipName": "commentary",
             "otherEntityName": "commentary",
             "otherEntityRelationshipName": "post"
+        },
+        {
+            "relationshipName": "author",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "post"
         }
     ],
     "fields": [
@@ -33,10 +41,10 @@
         }
     ],
     "changelogDate": "20180518122416",
-    "entityTableName": "post",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
     "service": "serviceClass",
+    "entityTableName": "post",
     "jpaMetamodelFiltering": false,
+    "pagination": "infinite-scroll",
     "angularJSSuffix": "mySuffix"
 }

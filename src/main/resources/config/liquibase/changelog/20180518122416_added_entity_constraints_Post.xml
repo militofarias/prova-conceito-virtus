@@ -7,12 +7,23 @@
         Added the constraints for entity Post.
     -->
     <changeSet id="20180518122416-2" author="jhipster">
-        
+
         <addForeignKeyConstraint baseColumnNames="body_id"
                                  baseTableName="post"
                                  constraintName="fk_post_body_id"
                                  referencedColumnNames="id"
                                  referencedTableName="body"/>
 
+    </changeSet>
+
+    <changeSet author="Pablo - Virtus (generated)" id="1527099816070-22">
+        <addForeignKeyConstraint
+            baseColumnNames="author_id"
+            baseTableName="post"
+            constraintName="FKjwr1qwhc6w9bef0i6m1kdqqn2"
+            deferrable="false"
+            initiallyDeferred="false"
+            referencedColumnNames="id"
+            referencedTableName="jhi_user"/>
     </changeSet>
 </databaseChangeLog>
