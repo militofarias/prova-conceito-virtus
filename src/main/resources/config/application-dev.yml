@@ -31,7 +31,7 @@ file:
     upload-dir: ./uploads
 
 spring:
-    servlet:
+    http:
         multipart:
             enabled: true
             max-file-size: 1000MB
