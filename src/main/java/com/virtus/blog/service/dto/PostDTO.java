@@ -1,10 +1,14 @@
 package com.virtus.blog.service.dto;
 
 
+import com.virtus.blog.domain.Asset;
+import com.virtus.blog.domain.Body;
+
 import java.time.ZonedDateTime;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Objects;
 
@@ -22,6 +26,10 @@ public class PostDTO implements Serializable {
     private ZonedDateTime date;
 
     private Long bodyId;
+
+    private String textBody;
+
+    private List<String> assets;
 
     public Long getId() {
         return id;
@@ -53,6 +61,22 @@ public class PostDTO implements Serializable {
 
     public void setBodyId(Long bodyId) {
         this.bodyId = bodyId;
+    }
+
+    public String getTextBody() {
+        return textBody;
+    }
+
+    public void setTextBody(String textBody) {
+        this.textBody = textBody;
+    }
+
+    public List<String> getAssets() {
+        return assets;
+    }
+
+    public void setAssets(List<String> assets) {
+        this.assets = assets;
     }
 
     @Override
