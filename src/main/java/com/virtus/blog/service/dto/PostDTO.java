@@ -31,6 +31,8 @@ public class PostDTO implements Serializable {
 
     private List<String> assets;
 
+    private List<String> comments;
+
     public Long getId() {
         return id;
     }
@@ -78,6 +80,11 @@ public class PostDTO implements Serializable {
     public void setAssets(List<String> assets) {
         this.assets = assets;
     }
+
+
+    public List<String> getComments() { return comments; }
+
+    public void setComments(List<String> comments) { this.comments = comments; }
 
     @Override
     public boolean equals(Object o) {
