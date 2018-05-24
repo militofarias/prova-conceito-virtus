@@ -56,7 +56,7 @@ public class PostResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new postDTO, or with status 400 (Bad Request) if the post has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/posts")
+    @PostMapping("/write-post")
     @Timed
     @Secured({AuthoritiesConstants.AUTHOR, AuthoritiesConstants.ADMIN})
     public ResponseEntity<PostDTO> createPost(@Valid @RequestBody RequestPostDTO requestPostDTO) throws URISyntaxException {
@@ -78,8 +78,9 @@ public class PostResource {
      * or with status 500 (Internal Server Error) if the postDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PutMapping("/posts")
+    @PutMapping("/update-post")
     @Timed
+    @Secured({AuthoritiesConstants.AUTHOR, AuthoritiesConstants.ADMIN})
     public ResponseEntity<PostDTO> updatePost(@Valid @RequestBody PostDTO postDTO) throws URISyntaxException {
         log.debug("REST request to update Post : {}", postDTO);
 //        if (postDTO.getId() == null) {

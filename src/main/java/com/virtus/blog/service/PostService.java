@@ -2,6 +2,7 @@ package com.virtus.blog.service;
 
 import com.virtus.blog.domain.Asset;
 import com.virtus.blog.domain.Body;
+import com.virtus.blog.domain.Commentary;
 import com.virtus.blog.domain.Post;
 import com.virtus.blog.repository.AssetRepository;
 import com.virtus.blog.repository.BodyRepository;
@@ -209,6 +210,7 @@ public class PostService {
             Body body = bodyRepository.findOne(post.getBodyId());
             postDTO.setTextBody(body.getText());
             postDTO.setAssets(this.getAssets(body.getId()));
+            postDTO.setComments(this.getComments(post.getId()));
             postDTO.setTitle(post.getTitle());
             postDTO.setDate(post.getDate());
             postDTO.setBodyId(post.getBodyId());
@@ -231,6 +233,23 @@ public class PostService {
 
         for (Asset asset : body.getAssets()) {
             listToReturn.add(asset.getImagePath());
+        }
+        return listToReturn;
+    }
+
+    /**
+     * Get all assets from sent body
+     *
+     * @param postId the body id with assets
+     * @return the assets list
+     */
+    private List<String> getComments(Long postId) {
+
+        Post post = postRepository.findOne(postId);
+        List<String> listToReturn = new ArrayList<>();
+
+        for (Commentary commentary : post.getCommentaries()) {
+            listToReturn.add(commentary.getText());
         }
         return listToReturn;
     }

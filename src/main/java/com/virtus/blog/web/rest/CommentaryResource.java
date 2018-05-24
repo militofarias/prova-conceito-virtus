@@ -61,7 +61,7 @@ public class CommentaryResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new commentaryDTO, or with status 400 (Bad Request) if the commentary has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/commentaries")
+    @PostMapping("/write-commentaries")
     @Timed
     public ResponseEntity<CommentaryDTO> createCommentary(@Valid @RequestBody CommentaryDTO commentaryDTO) throws URISyntaxException {
         log.debug("REST request to save Commentary : {}", commentaryDTO);
@@ -86,7 +86,7 @@ public class CommentaryResource {
      * or with status 500 (Internal Server Error) if the commentaryDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PutMapping("/commentaries")
+    @PutMapping("/update-commentaries")
     @Timed
     public ResponseEntity<CommentaryDTO> updateCommentary(@Valid @RequestBody CommentaryDTO commentaryDTO) throws URISyntaxException {
         log.debug("REST request to update Commentary : {}", commentaryDTO);
