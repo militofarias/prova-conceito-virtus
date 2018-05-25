@@ -31,15 +31,24 @@
             <div class="container">
                 <div class="row divider" *ngFor="let asset of newPost.assets">
                     <div class="col-sm-2" style="margin-bottom: 10px">
+
                         <div *ngIf="asset" class="form-text text-danger clearfix">
                             <button type="button" (click)="removeAsset(asset)" class="btn btn-secondary btn-sm pull-right">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <img [src]="'data:' + asset.imageContentType + ';base64,' + asset.image" style="max-height: 50px;" *ngIf="asset" alt="photo image"/>
+                        <div>
+                            <img [src]="asset.path" style="max-height: 50px;" *ngIf="asset" alt="photo image"/>
+                        </div>
+
+                        <div *ngIf="templates">
+                            <video width="400" controls>
+                                <source src={{templates.media[0].remoteUrl}} type="video/mp4">Your browser does not support HTML5 video.
+                            </video>
+                        </div>
                     </div>
                 </div>
-                <input type="file" id="field_asset" (change)="setFileData($event, newPost.assets, 'image', false)" accept="image/*,video/*"/>
+                <input type="file" id="field_asset" (change)="setFileData($event.target.files)" accept="image/*,video/*"/>
             </div>
         </div>
     </div>

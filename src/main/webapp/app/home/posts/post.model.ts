@@ -1,11 +1,12 @@
 import { BaseEntity } from '../../shared/index';
+import {Asset} from "./asset.model";
 
 export class Post implements BaseEntity {
     public id?: number;
     public title?: string;
     public bodyText?: string;
     public date?: Date;
-    public assets?: string[];
+    public assets?: Asset[];
     public authorLogin?: string;
     public commentaries: any[]
 }

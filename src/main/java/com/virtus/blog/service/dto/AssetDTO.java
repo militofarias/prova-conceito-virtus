@@ -17,6 +17,8 @@ public class AssetDTO implements Serializable {
 
     private Long bodyId;
 
+    private String fileType;
+
     public Long getId() {
         return id;
     }
@@ -39,6 +41,14 @@ public class AssetDTO implements Serializable {
 
     public void setBodyId(Long bodyId) {
         this.bodyId = bodyId;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
     }
 
     @Override

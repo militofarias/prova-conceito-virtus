@@ -2,17 +2,15 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {JhiAlertService, JhiDataUtils, JhiEventManager} from 'ng-jhipster';
-import {PostMySuffixService} from '../../entities/post-my-suffix/index';
 import {BodyMySuffixService} from '../../entities/body-my-suffix/index';
 import {PostsPopupService} from './posts-popup.service';
 import {Post} from './post.model';
-import {Body} from './body.model';
 import {Asset} from './asset.model';
-import {post} from "selenium-webdriver/http";
 import {PostService} from "./posts.service";
 import {PostMySuffix} from "../../entities/post-my-suffix/post-my-suffix.model";
 import {Observable} from "rxjs/Observable";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {File, FileService} from "../files";
 
 @Component({
     selector: 'jhi-post-dialog',
@@ -30,7 +28,8 @@ export class PostsDialogComponent implements OnInit {
         private jhiAlertService: JhiAlertService,
         private postService: PostService,
         private bodyService: BodyMySuffixService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private fileService: FileService
     ) {
     }
 
@@ -64,15 +63,25 @@ export class PostsDialogComponent implements OnInit {
         this.isSaving = false;
     }
 
-    setFileData(event, entity, field, isImage) {
-        const asset = new Asset();
-        this.dataUtils.setFileData(event, asset, field, isImage);
+    setFileData(files) {
 
-        entity.push(asset);
+        if (this.newPost.assets == null) this.newPost.assets = [];
+
+        if (files.length == 1) {
+            this.fileService.create(files[0]).subscribe(
+                (res: HttpResponse<File>) => {
+                    this.newPost.assets.push(new Asset(res.body.id, res.body.imagePath, res.body.fileType));
+                    console.log(this.newPost.assets)
+
+                }, (res: HttpErrorResponse) => {
+                    console.log("Error");
+                    console.log(res);
+                });
+        }
     }
 
     removeAsset(asset) {
-        this.newPost.assets = this.newPost.assets.filter(obj => obj !== asset );
+        this.newPost.assets = this.newPost.assets.filter(obj => obj.id !== asset.id );
     }
 }
 

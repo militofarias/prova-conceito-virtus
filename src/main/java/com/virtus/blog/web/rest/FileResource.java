@@ -1,10 +1,13 @@
 package com.virtus.blog.web.rest;
 
 
+import com.virtus.blog.domain.Asset;
+import com.virtus.blog.repository.AssetRepository;
 import com.virtus.blog.service.FileStorageService;
+import com.virtus.blog.service.dto.AssetDTO;
 import com.virtus.blog.service.dto.UploadFileDTO;
+import com.virtus.blog.service.mapper.AssetMapper;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.core.io.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 import org.slf4j.Logger;
@@ -27,12 +32,17 @@ public class FileResource {
 
     private FileStorageService fileStorageService;
 
-    public FileResource(FileStorageService fileStorageService) {
+    private AssetRepository assetRepository;
+    private final AssetMapper assetMapper;
+
+    public FileResource(FileStorageService fileStorageService, AssetRepository assetRepository, AssetMapper assetMapper) {
         this.fileStorageService = fileStorageService;
+        this.assetRepository = assetRepository;
+        this.assetMapper = assetMapper;
     }
 
     @PostMapping("/uploadFile")
-    public UploadFileDTO uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<AssetDTO> uploadFile(@RequestParam("file") MultipartFile file) throws URISyntaxException {
         String fileName = fileStorageService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -40,16 +50,18 @@ public class FileResource {
             .path(fileName)
             .toUriString();
 
-        return new UploadFileDTO(fileName, fileDownloadUri,
-            file.getContentType(), file.getSize());
-    }
+        Asset asset = new Asset();
+        asset.setImagePath(fileDownloadUri);
+        asset = this.assetRepository.save(asset);
+        AssetDTO result = assetMapper.toDto(asset);
+        result.setFileType(file.getContentType());
 
-    @PostMapping("/uploadMultipleFiles")
-    public List<UploadFileDTO> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
-        return Arrays.asList(files)
-            .stream()
-            .map(file -> uploadFile(file))
-            .collect(Collectors.toList());
+        System.out.println(file.getContentType());
+        System.out.println("sdasdasoidsaiodaonsiodn");
+
+
+        return ResponseEntity.created(new URI("/api/assets/" + asset.getId()))
+            .body(result);
     }
 
     @GetMapping("/downloadFile/{fileName:.+}")
