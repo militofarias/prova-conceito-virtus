@@ -1,6 +1,8 @@
 package com.virtus.blog.service.dto;
 
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -15,6 +17,7 @@ public class BodyDTO implements Serializable {
 
     private Long id;
 
+    @NotBlank
     @NotNull
     @Lob
     private String text;
