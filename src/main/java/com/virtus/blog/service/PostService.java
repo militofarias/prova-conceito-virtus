@@ -1,16 +1,12 @@
 package com.virtus.blog.service;
 
-import com.virtus.blog.domain.Asset;
-import com.virtus.blog.domain.Body;
-import com.virtus.blog.domain.Post;
-import com.virtus.blog.domain.User;
-import com.virtus.blog.repository.AssetRepository;
-import com.virtus.blog.repository.BodyRepository;
-import com.virtus.blog.repository.PostRepository;
-import com.virtus.blog.repository.UserRepository;
+import com.virtus.blog.domain.*;
+import com.virtus.blog.repository.*;
 import com.virtus.blog.repository.search.PostSearchRepository;
+import com.virtus.blog.service.dto.CommentaryDTO;
 import com.virtus.blog.service.dto.PostDTO;
 import com.virtus.blog.service.dto.RequestPostDTO;
+import com.virtus.blog.service.mapper.CommentaryMapper;
 import com.virtus.blog.service.mapper.PostMapper;
 import com.virtus.blog.web.rest.errors.PostNotFoundException;
 import org.slf4j.Logger;
@@ -43,21 +39,25 @@ public class PostService {
 
     private final PostMapper postMapper;
 
+    private final UserRepository userRepository;
+
     private final UserService userService;
 
-    private final UserRepository userRepository;
+    private final CommentaryRepository commentaryRepository;
 
     private final PostSearchRepository postSearchRepository;
 
     public PostService(PostRepository postRepository, PostMapper postMapper, PostSearchRepository postSearchRepository,
-                       AssetRepository assetRepository, BodyRepository bodyRepository, UserService userService, UserRepository userRepository) {
+                       AssetRepository assetRepository, BodyRepository bodyRepository,
+                       UserService userService, CommentaryRepository commentaryRepository, UserRepository userRepository) {
         this.postRepository = postRepository;
         this.postMapper = postMapper;
         this.postSearchRepository = postSearchRepository;
         this.assetRepository = assetRepository;
         this.bodyRepository = bodyRepository;
-        this.userService = userService;
         this.userRepository = userRepository;
+        this.userService = userService;
+        this.commentaryRepository = commentaryRepository;
     }
 
     /**
@@ -229,6 +229,7 @@ public class PostService {
             postDTO.setBodyId(post.getBodyId());
             postDTO.setId(post.getId());
             postDTO.setAuthorLogin(post.getAuthorLogin());
+            postDTO.setCommentaries(getCommentaryDTOFormat(commentaryRepository.findAllByPostId(post.getId())));
             pagesToReturn.add(postDTO);
         }
         return pagesToReturn;
@@ -249,5 +250,21 @@ public class PostService {
             listToReturn.add(asset.getImagePath());
         }
         return listToReturn;
+    }
+
+    private List<CommentaryDTO> getCommentaryDTOFormat(List<Commentary> commentaries) {
+        List<CommentaryDTO> result = new ArrayList<>();
+
+        commentaries.forEach(commentary -> {
+            CommentaryDTO commentaryDTO = new CommentaryDTO();
+            commentaryDTO.setId(commentary.getId());
+            commentaryDTO.setPostId(commentary.getPost().getId());
+            commentaryDTO.setUserId(commentary.getUser().getId());
+            commentaryDTO.setUserLogin(commentary.getUser().getLogin());
+            commentaryDTO.setText(commentary.getText());
+            result.add(commentaryDTO);
+        });
+
+        return result;
     }
 }

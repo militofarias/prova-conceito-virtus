@@ -32,6 +32,8 @@ public class PostDTO implements Serializable {
 
     private List<String> assets;
 
+    private List<CommentaryDTO> commentaries;
+
     public Long getId() {
         return id;
     }
@@ -94,6 +96,14 @@ public class PostDTO implements Serializable {
 
     public void setAssets(List<String> assets) {
         this.assets = assets;
+    }
+
+    public List<CommentaryDTO> getCommentaries() {
+        return commentaries;
+    }
+
+    public void setCommentaries(List<CommentaryDTO> commentaries) {
+        this.commentaries = commentaries;
     }
 
     @Override

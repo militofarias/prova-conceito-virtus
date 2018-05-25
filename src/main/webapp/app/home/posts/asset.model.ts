@@ -1,4 +1,4 @@
-import { BaseEntity } from '../shared/index';
+import { BaseEntity } from '../../shared/index';
 
 export class Asset implements BaseEntity {
     constructor(

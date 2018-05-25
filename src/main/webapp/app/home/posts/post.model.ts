@@ -8,3 +8,4 @@ export class Post implements BaseEntity {
     public assets?: string[];
     public authorLogin?: string;
     public commentaries: any[]
+}

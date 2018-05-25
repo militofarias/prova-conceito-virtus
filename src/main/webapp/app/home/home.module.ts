@@ -13,6 +13,8 @@ import {
     PostService
 } from './posts';
 
+import {CommentaryService} from "./commentaries";
+
 @NgModule({
     imports: [
         JHipsterBlogSharedModule,
@@ -29,7 +31,8 @@ import {
     ],
     providers: [
         PostsPopupService,
-        PostService
+        PostService,
+        CommentaryService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

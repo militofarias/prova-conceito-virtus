@@ -23,6 +23,8 @@ public class CommentaryDTO implements Serializable {
 
     private Long postId;
 
+    private String userLogin;
+
     public Long getId() {
         return id;
     }
@@ -53,6 +55,14 @@ public class CommentaryDTO implements Serializable {
 
     public void setPostId(Long postId) {
         this.postId = postId;
+    }
+
+    public String getUserLogin() {
+        return userLogin;
+    }
+
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
     }
 
     @Override

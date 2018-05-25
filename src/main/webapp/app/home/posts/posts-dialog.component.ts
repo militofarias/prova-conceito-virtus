@@ -2,15 +2,15 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {JhiAlertService, JhiDataUtils, JhiEventManager} from 'ng-jhipster';
-import {PostMySuffixService} from '../entities/post-my-suffix/index';
-import {BodyMySuffixService} from '../entities/body-my-suffix/index';
+import {PostMySuffixService} from '../../entities/post-my-suffix/index';
+import {BodyMySuffixService} from '../../entities/body-my-suffix/index';
 import {PostsPopupService} from './posts-popup.service';
 import {Post} from './post.model';
 import {Body} from './body.model';
 import {Asset} from './asset.model';
 import {post} from "selenium-webdriver/http";
 import {PostService} from "./posts.service";
-import {PostMySuffix} from "../entities/post-my-suffix/post-my-suffix.model";
+import {PostMySuffix} from "../../entities/post-my-suffix/post-my-suffix.model";
 import {Observable} from "rxjs/Observable";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 

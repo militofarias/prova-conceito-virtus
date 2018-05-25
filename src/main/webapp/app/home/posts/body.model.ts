@@ -1,4 +1,4 @@
-import { BaseEntity } from '../shared/index';
+import { BaseEntity } from '../../shared/index';
 import {Asset} from './asset.model';
 
 export class Body implements BaseEntity {
