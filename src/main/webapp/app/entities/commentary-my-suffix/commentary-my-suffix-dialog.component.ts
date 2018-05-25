@@ -9,8 +9,8 @@ import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { CommentaryMySuffix } from './commentary-my-suffix.model';
 import { CommentaryMySuffixPopupService } from './commentary-my-suffix-popup.service';
 import { CommentaryMySuffixService } from './commentary-my-suffix.service';
-import { User, UserService } from '../../shared';
 import { PostMySuffix, PostMySuffixService } from '../post-my-suffix';
+import { User, UserService } from '../../shared';
 
 @Component({
     selector: 'jhi-commentary-my-suffix-dialog',
@@ -21,27 +21,27 @@ export class CommentaryMySuffixDialogComponent implements OnInit {
     commentary: CommentaryMySuffix;
     isSaving: boolean;
 
-    users: User[];
-
     posts: PostMySuffix[];
+
+    users: User[];
 
     constructor(
         public activeModal: NgbActiveModal,
         private dataUtils: JhiDataUtils,
         private jhiAlertService: JhiAlertService,
         private commentaryService: CommentaryMySuffixService,
-        private userService: UserService,
         private postService: PostMySuffixService,
+        private userService: UserService,
         private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.userService.query()
-            .subscribe((res: HttpResponse<User[]>) => { this.users = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
         this.postService.query()
             .subscribe((res: HttpResponse<PostMySuffix[]>) => { this.posts = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
+        this.userService.query()
+            .subscribe((res: HttpResponse<User[]>) => { this.users = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     byteSize(field) {
@@ -90,11 +90,11 @@ export class CommentaryMySuffixDialogComponent implements OnInit {
         this.jhiAlertService.error(error.message, null, null);
     }
 
-    trackUserById(index: number, item: User) {
+    trackPostById(index: number, item: PostMySuffix) {
         return item.id;
     }
 
-    trackPostById(index: number, item: PostMySuffix) {
+    trackUserById(index: number, item: User) {
         return item.id;
     }
 }

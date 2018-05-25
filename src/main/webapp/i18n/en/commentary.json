@@ -18,8 +18,8 @@
                 "title": "Commentary"
             },
             "text": "Text",
-            "user": "User",
-            "post": "Post"
+            "post": "Post",
+            "author": "Author"
         }
     }
 }

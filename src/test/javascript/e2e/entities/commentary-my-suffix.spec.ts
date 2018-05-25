@@ -35,8 +35,8 @@ describe('Commentary e2e test', () => {
         commentaryComponentsPage.clickOnCreateButton();
         commentaryDialogPage.setTextInput('text');
         expect(commentaryDialogPage.getTextInput()).toMatch('text');
-        commentaryDialogPage.userSelectLastOption();
         commentaryDialogPage.postSelectLastOption();
+        commentaryDialogPage.authorSelectLastOption();
         commentaryDialogPage.save();
         expect(commentaryDialogPage.getSaveButton().isPresent()).toBeFalsy();
     });
@@ -64,8 +64,8 @@ export class CommentaryDialogPage {
     saveButton = element(by.css('.modal-footer .btn.btn-primary'));
     closeButton = element(by.css('button.close'));
     textInput = element(by.css('textarea#field_text'));
-    userSelect = element(by.css('select#field_user'));
     postSelect = element(by.css('select#field_post'));
+    authorSelect = element(by.css('select#field_author'));
 
     getModalTitle() {
         return this.modalTitle.getAttribute('jhiTranslate');
@@ -77,22 +77,6 @@ export class CommentaryDialogPage {
 
     getTextInput = function() {
         return this.textInput.getAttribute('value');
-    };
-
-    userSelectLastOption = function() {
-        this.userSelect.all(by.tagName('option')).last().click();
-    };
-
-    userSelectOption = function(option) {
-        this.userSelect.sendKeys(option);
-    };
-
-    getUserSelect = function() {
-        return this.userSelect;
-    };
-
-    getUserSelectedOption = function() {
-        return this.userSelect.element(by.css('option:checked')).getText();
     };
 
     postSelectLastOption = function() {
@@ -109,6 +93,22 @@ export class CommentaryDialogPage {
 
     getPostSelectedOption = function() {
         return this.postSelect.element(by.css('option:checked')).getText();
+    };
+
+    authorSelectLastOption = function() {
+        this.authorSelect.all(by.tagName('option')).last().click();
+    };
+
+    authorSelectOption = function(option) {
+        this.authorSelect.sendKeys(option);
+    };
+
+    getAuthorSelect = function() {
+        return this.authorSelect;
+    };
+
+    getAuthorSelectedOption = function() {
+        return this.authorSelect.element(by.css('option:checked')).getText();
     };
 
     save() {

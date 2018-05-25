@@ -9,8 +9,8 @@ import { JHipsterBlogTestModule } from '../../../test.module';
 import { CommentaryMySuffixDialogComponent } from '../../../../../../main/webapp/app/entities/commentary-my-suffix/commentary-my-suffix-dialog.component';
 import { CommentaryMySuffixService } from '../../../../../../main/webapp/app/entities/commentary-my-suffix/commentary-my-suffix.service';
 import { CommentaryMySuffix } from '../../../../../../main/webapp/app/entities/commentary-my-suffix/commentary-my-suffix.model';
-import { UserService } from '../../../../../../main/webapp/app/shared';
 import { PostMySuffixService } from '../../../../../../main/webapp/app/entities/post-my-suffix';
+import { UserService } from '../../../../../../main/webapp/app/shared';
 
 describe('Component Tests', () => {
 
@@ -26,8 +26,8 @@ describe('Component Tests', () => {
                 imports: [JHipsterBlogTestModule],
                 declarations: [CommentaryMySuffixDialogComponent],
                 providers: [
-                    UserService,
                     PostMySuffixService,
+                    UserService,
                     CommentaryMySuffixService
                 ]
             })

@@ -34,18 +34,36 @@
                 </div>
                 <div class="card-footer bg-transparent">
                     Assets
+                    <div *ngIf="!post.assets || post.assets.length == 0">
+                        <p><small>No assets</small></p>
+                    </div>
+                    <!--<div *ngIf="post.assets">-->
+                        <!--<ul class="list-unstyled" *ngFor="let asset of post.assets">-->
+                            <!--<li class="media">-->
+                                <!--<img class="mr-1" src="asset" style="width: 20px" alt="Generic placeholder image">-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
                 </div>
                 <div class="card-footer bg-transparent">
+                    <span>Comments</span>
+                    <br/>
+                    <br/>
 
-                    <ul class="list-unstyled" *ngFor="let comment of post.commentaries">
-                        <li class="media">
-                            <img class="mr-1" src="../../../content/images/logo-jhipster.png" style="width: 20px" alt="Generic placeholder image">
-                            <div class="media-body">
-                                <p class="mt-0">{{comment.userLogin}}</p>
-                                <p><small>{{comment.text}}</small></p>
-                            </div>
-                        </li>
-                    </ul>
+                    <div *ngIf="!post.commentaries || post.commentaries.length == 0">
+                        <p><small>No comments</small></p>
+                    </div>
+                    <div *ngIf="post.commentaries">
+                        <ul class="list-unstyled" *ngFor="let comment of post.commentaries">
+                            <li class="media">
+                                <img class="mr-1" src="../../../content/images/logo-jhipster.png" style="width: 20px" alt="Generic placeholder image">
+                                <div class="media-body">
+                                    <p class="mt-0">{{comment.authorLogin}}</p>
+                                    <p><small>{{comment.text}}</small></p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div *jhiHasAnyAuthority="['ROLE_USER','ROLE_AUTHOR', 'ROLE_ADMIN']" class="card-footer bg-transparent">
                     <div class="row">

@@ -31,12 +31,11 @@ public class Commentary implements Serializable {
     @Column(name = "text", nullable = false)
     private String text;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private User user;
-
     @ManyToOne
     private Post post;
+
+    @ManyToOne
+    private User author;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -60,19 +59,6 @@ public class Commentary implements Serializable {
         this.text = text;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public Commentary user(User user) {
-        this.user = user;
-        return this;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Post getPost() {
         return post;
     }
@@ -84,6 +70,19 @@ public class Commentary implements Serializable {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public Commentary author(User user) {
+        this.author = user;
+        return this;
+    }
+
+    public void setAuthor(User user) {
+        this.author = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -112,6 +111,7 @@ public class Commentary implements Serializable {
         return "Commentary{" +
             "id=" + getId() +
             ", text='" + getText() + "'" +
+            ", author='" + getAuthor().getId() + "'" +
             "}";
     }
 }

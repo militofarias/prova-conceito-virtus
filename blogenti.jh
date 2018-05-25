@@ -1,0 +1,39 @@
+entity Post {
+	title String required
+    date ZonedDateTime required
+	body TextBlob required
+}
+
+entity Commentary {
+	text TextBlob required
+}
+
+entity Asset {
+	path String required
+}
+
+entity Author {
+	biography String required
+}
+
+relationship OneToMany {
+	Post{commentary} to Commentary{post(title)}
+	Post{asset} to Asset
+}
+
+relationship ManyToOne {
+	Commentary{author(login)} to User
+    Post{author} to Author
+}
+
+relationship OneToOne { 
+	Author to User
+}
+
+paginate Commentary, Post with infinite-scroll
+
+dto * with mapstruct
+// Set service options to all except few
+service Post with serviceClass
+// Set an angular suffix
+angularSuffix * with manager

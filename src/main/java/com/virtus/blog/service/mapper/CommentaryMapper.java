@@ -8,15 +8,16 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity Commentary and its DTO CommentaryDTO.
  */
-@Mapper(componentModel = "spring", uses = {UserMapper.class, PostMapper.class})
+@Mapper(componentModel = "spring", uses = {PostMapper.class, UserMapper.class})
 public interface CommentaryMapper extends EntityMapper<CommentaryDTO, Commentary> {
 
-    @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "post.id", target = "postId")
+    @Mapping(source = "author.id", target = "authorId")
+    @Mapping(source = "author.login", target = "authorLogin")
     CommentaryDTO toDto(Commentary commentary);
 
-    @Mapping(source = "userId", target = "user")
     @Mapping(source = "postId", target = "post")
+    @Mapping(source = "authorId", target = "author")
     Commentary toEntity(CommentaryDTO commentaryDTO);
 
     default Commentary fromId(Long id) {

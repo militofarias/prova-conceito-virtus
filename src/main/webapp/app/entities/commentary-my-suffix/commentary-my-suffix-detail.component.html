@@ -8,15 +8,15 @@
         <dd>
             <span>{{commentary.text}}</span>
         </dd>
-        <dt><span jhiTranslate="jHipsterBlogApp.commentary.user">User</span></dt>
-        <dd>
-            {{commentary.userId}}
-        </dd>
         <dt><span jhiTranslate="jHipsterBlogApp.commentary.post">Post</span></dt>
         <dd>
             <div *ngIf="commentary.postId">
                 <a [routerLink]="['/post-my-suffix', commentary.postId]">{{commentary.postId}}</a>
             </div>
+        </dd>
+        <dt><span jhiTranslate="jHipsterBlogApp.commentary.author">Author</span></dt>
+        <dd>
+            {{commentary.authorLogin}}
         </dd>
     </dl>
 

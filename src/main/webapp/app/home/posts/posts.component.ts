@@ -149,6 +149,7 @@ export class PostsComponent implements OnInit, OnDestroy {
         this.posts = [];
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
+        console.log(data);
         for (let i = 0; i < data.length; i++) {
             this.posts.push(data[i]);
         }
@@ -161,15 +162,18 @@ export class PostsComponent implements OnInit, OnDestroy {
     public submitComment(comment, post) {
 
         const commentary: Commentary = {
-            id: null,
             postId: post.id,
-            userId: this.currentAccount.id,
+            authorId: this.currentAccount.id,
             text: comment
         };
 
         this.commentaryService.create(commentary).subscribe(
-            (res: HttpResponse<Commentary>) => this.loadAll(),
-                (res: HttpErrorResponse) => console.log(res)
+            (res: HttpResponse<Commentary>) => {
+                this.reset()
+                this.loadAll();
+            }, (res: HttpErrorResponse) => {
+                console.log(res)
+            }
         );
     }
 }

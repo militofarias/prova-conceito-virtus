@@ -2,18 +2,18 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipType": "one-to-one",
-            "relationshipName": "user",
-            "otherEntityName": "user",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "commentary"
-        },
-        {
             "relationshipType": "many-to-one",
             "relationshipName": "post",
             "otherEntityName": "post",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "author",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "commentary"
         }
     ],
     "fields": [
@@ -27,10 +27,10 @@
         }
     ],
     "changelogDate": "20180518122417",
-    "entityTableName": "commentary",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
     "service": "no",
+    "entityTableName": "commentary",
     "jpaMetamodelFiltering": false,
+    "pagination": "infinite-scroll",
     "angularJSSuffix": "mySuffix"
 }

@@ -31,8 +31,8 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="text"><span jhiTranslate="jHipsterBlogApp.commentary.text">Text</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="userId"><span jhiTranslate="jHipsterBlogApp.commentary.user">User</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="postId"><span jhiTranslate="jHipsterBlogApp.commentary.post">Post</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="authorLogin"><span jhiTranslate="jHipsterBlogApp.commentary.author">Author</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
@@ -41,12 +41,12 @@
                 <td><a [routerLink]="['../commentary-my-suffix', commentary.id ]">{{commentary.id}}</a></td>
                 <td>{{commentary.text}}</td>
                 <td>
-                    {{commentary.userId}}
-                </td>
-                <td>
                     <div *ngIf="commentary.postId">
                         <a [routerLink]="['../post-my-suffix', commentary.postId  ]" >{{commentary.postId}}</a>
                     </div>
+                </td>
+                <td>
+                    {{commentary.authorLogin}}
                 </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">

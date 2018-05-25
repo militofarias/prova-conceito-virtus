@@ -19,11 +19,11 @@ public class CommentaryDTO implements Serializable {
     @Lob
     private String text;
 
-    private Long userId;
-
     private Long postId;
 
-    private String userLogin;
+    private Long authorId;
+
+    private String authorLogin;
 
     public Long getId() {
         return id;
@@ -41,14 +41,6 @@ public class CommentaryDTO implements Serializable {
         this.text = text;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
     public Long getPostId() {
         return postId;
     }
@@ -57,12 +49,20 @@ public class CommentaryDTO implements Serializable {
         this.postId = postId;
     }
 
-    public String getUserLogin() {
-        return userLogin;
+    public Long getAuthorId() {
+        return authorId;
     }
 
-    public void setUserLogin(String userLogin) {
-        this.userLogin = userLogin;
+    public void setAuthorId(Long userId) {
+        this.authorId = userId;
+    }
+
+    public String getAuthorLogin() {
+        return authorLogin;
+    }
+
+    public void setAuthorLogin(String userLogin) {
+        this.authorLogin = userLogin;
     }
 
     @Override

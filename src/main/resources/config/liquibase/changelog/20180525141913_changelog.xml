@@ -1,0 +1,20 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="Pablo - Virtus (generated)" id="1527268756255-1">
+        <addColumn tableName="commentary">
+            <column name="author_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Pablo - Virtus (generated)" id="1527268756255-2">
+        <addForeignKeyConstraint baseColumnNames="author_id" baseTableName="commentary" constraintName="FKs6agmh63jnaw4l52abyil4v7r" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="Pablo - Virtus (generated)" id="1527268756255-3">
+        <dropForeignKeyConstraint baseTableName="COMMENTARY" constraintName="FK_COMMENTARY_USER_ID"/>
+    </changeSet>
+    <changeSet author="Pablo - Virtus (generated)" id="1527268756255-4">
+        <dropUniqueConstraint constraintName="CONSTRAINT_5" tableName="COMMENTARY"/>
+    </changeSet>
+    <changeSet author="Pablo - Virtus (generated)" id="1527268756255-5">
+        <dropColumn columnName="USER_ID" tableName="COMMENTARY"/>
+    </changeSet>
+</databaseChangeLog>

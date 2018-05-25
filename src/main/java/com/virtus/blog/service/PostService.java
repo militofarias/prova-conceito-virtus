@@ -229,7 +229,7 @@ public class PostService {
             postDTO.setBodyId(post.getBodyId());
             postDTO.setId(post.getId());
             postDTO.setAuthorLogin(post.getAuthorLogin());
-            postDTO.setCommentaries(getCommentaryDTOFormat(commentaryRepository.findAllByPostId(post.getId())));
+            postDTO.setCommentaries(getCommentaryDTOFormat(commentaryRepository.findByPostId(post.getId())));
             pagesToReturn.add(postDTO);
         }
         return pagesToReturn;
@@ -259,8 +259,8 @@ public class PostService {
             CommentaryDTO commentaryDTO = new CommentaryDTO();
             commentaryDTO.setId(commentary.getId());
             commentaryDTO.setPostId(commentary.getPost().getId());
-            commentaryDTO.setUserId(commentary.getUser().getId());
-            commentaryDTO.setUserLogin(commentary.getUser().getLogin());
+            commentaryDTO.setAuthorId(commentary.getAuthor().getId());
+            commentaryDTO.setAuthorLogin(commentary.getAuthor().getLogin());
             commentaryDTO.setText(commentary.getText());
             result.add(commentaryDTO);
         });
