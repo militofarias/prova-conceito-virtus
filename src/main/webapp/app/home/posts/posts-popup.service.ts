@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { HttpResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
-import {PostMySuffix, PostMySuffixService} from '../../entities/post-my-suffix';
+import {PostMySuffix, PostMySuffixService} from '../../entities/post-my-suffix/index';
 
 @Injectable()
 export class PostsPopupService {
@@ -57,4 +57,3 @@ export class PostsPopupService {
         });
         return modalRef;
     }
-}

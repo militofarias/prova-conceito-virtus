@@ -2,15 +2,15 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {JhiAlertService, JhiDataUtils, JhiEventManager} from 'ng-jhipster';
-import {PostMySuffixService} from '../../entities/post-my-suffix';
-import {BodyMySuffixService} from '../../entities/body-my-suffix';
+import {PostMySuffixService} from '../entities/post-my-suffix/index';
+import {BodyMySuffixService} from '../entities/body-my-suffix/index';
 import {PostsPopupService} from './posts-popup.service';
 import {Post} from './post.model';
 import {Body} from './body.model';
 import {Asset} from './asset.model';
 import {post} from "selenium-webdriver/http";
 import {PostService} from "./posts.service";
-import {PostMySuffix} from "../../entities/post-my-suffix/post-my-suffix.model";
+import {PostMySuffix} from "../entities/post-my-suffix/post-my-suffix.model";
 import {Observable} from "rxjs/Observable";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 
@@ -50,7 +50,7 @@ export class PostsDialogComponent implements OnInit {
     }
 
     private subscribeToSaveResponse(result: Observable<HttpResponse<PostMySuffix>>) {
-        result.subscribe((res: HttpResponse<PostMySuffix>) =>
+        result.subscribe((res: HttpResponse<Post>) =>
             this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
     }
 
@@ -67,10 +67,8 @@ export class PostsDialogComponent implements OnInit {
     setFileData(event, entity, field, isImage) {
         const asset = new Asset();
         this.dataUtils.setFileData(event, asset, field, isImage);
-        console.log(event);
-        console.log(field);
+
         entity.push(asset);
-        console.log(entity)
     }
 
     removeAsset(asset) {

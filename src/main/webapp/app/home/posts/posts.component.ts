@@ -4,9 +4,11 @@ import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import {JhiAlertService, JhiEventManager, JhiParseLinks} from 'ng-jhipster';
 
-import {ITEMS_PER_PAGE} from '../../shared';
+import {ITEMS_PER_PAGE, Principal} from '../../shared';
 import {Post} from "./post.model";
 import {PostService} from "./posts.service";
+import {CommentaryMySuffix, CommentaryMySuffixService} from "../../entities/commentary-my-suffix";
+import {Commentary, CommentaryService} from "../commentaries";
 
 @Component({
     selector: 'jhi-posts',
@@ -29,13 +31,16 @@ export class PostsComponent implements OnInit, OnDestroy {
     currentSearch: string;
     inputComment = false;
     commentaries = [];
+    currentAccount: any;
 
     constructor(
         private postService: PostService,
         private jhiAlertService: JhiAlertService,
         private eventManager: JhiEventManager,
         private parseLinks: JhiParseLinks,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        private principal: Principal,
+        private commentaryService: CommentaryService
     ) {
         this.posts = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -119,6 +124,9 @@ export class PostsComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.loadAll();
         this.registerChangeInPosts();
+        this.principal.identity().then((account) => {
+            this.currentAccount = account;
+        });
     }
 
     ngOnDestroy() {
@@ -138,6 +146,7 @@ export class PostsComponent implements OnInit, OnDestroy {
     }
 
     private onSuccess(data, headers) {
+        this.posts = [];
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         for (let i = 0; i < data.length; i++) {
@@ -149,7 +158,18 @@ export class PostsComponent implements OnInit, OnDestroy {
         this.jhiAlertService.error(error.message, null, null);
     }
 
-    public showInputComment() {
-        this.inputComment = !this.inputComment;
+    public submitComment(comment, post) {
+
+        const commentary: Commentary = {
+            id: null,
+            postId: post.id,
+            userId: this.currentAccount.id,
+            text: comment
+        };
+
+        this.commentaryService.create(commentary).subscribe(
+            (res: HttpResponse<Commentary>) => this.loadAll(),
+                (res: HttpErrorResponse) => console.log(res)
+        );
     }
 }

@@ -1,7 +1,7 @@
 <div>
     <h2>
         <span jhiTranslate="jHipsterBlogApp.post.home.title">Posts</span>
-        <button *jhiHasAnyAuthority="'ROLE_AUTHOR' || 'ROLE_ADMIN'" class="btn btn-primary float-right jh-create-entity create-post-my-suffix" [routerLink]="['/', { outlets: { popup: ['post-new'] } }]">
+        <button *jhiHasAnyAuthority="['ROLE_AUTHOR', 'ROLE_ADMIN']" class="btn btn-primary float-right jh-create-entity create-post-my-suffix" [routerLink]="['/', { outlets: { popup: ['post-new'] } }]">
             <span class="fa fa-plus"></span>
             <span class="hidden-sm-down"  jhiTranslate="jHipsterBlogApp.post.home.createLabel">
             Create new Post
@@ -37,25 +37,24 @@
                 </div>
                 <div class="card-footer bg-transparent">
 
-                    <ul class="list-unstyled" *ngFor="let comment of commentaries">
+                    <ul class="list-unstyled" *ngFor="let comment of post.commentaries">
                         <li class="media">
                             <img class="mr-1" src="../../../content/images/logo-jhipster.png" style="width: 20px" alt="Generic placeholder image">
                             <div class="media-body">
-                                <p class="mt-0">{{comment.author}}</p>
+                                <p class="mt-0">{{comment.userLogin}}</p>
                                 <p><small>{{comment.text}}</small></p>
                             </div>
                         </li>
                     </ul>
                 </div>
-                <div *jhiHasAnyAuthority="'ROLE_USER'" class="card-footer bg-transparent">
-                    <a href="#" class="btn btn-toolbar" *ngIf="!inputComment" (click)="showInputComment()"><span class="oi oi-plus"></span> Comment</a>
-                    <div class="row" *ngIf="inputComment">
+                <div *jhiHasAnyAuthority="['ROLE_USER','ROLE_AUTHOR', 'ROLE_ADMIN']" class="card-footer bg-transparent">
+                    <div class="row">
                         <div class="col-sm-12">
                             <form name="searchForm" class="form-inline">
                                 <div class="input-group w-100 mt-3">
-                                    <input type="text" class="form-control" name="title" id="field_comment" placeholder="Comment" required>
-                                    <button class="input-group-append btn btn-info" (click)="showInputComment()">
-                                        <span class="fa fa-times"></span>
+                                    <input type="text" class="form-control" name="title" #comment id="field_comment" placeholder="Comment" required>
+                                    <button class="input-group-append btn btn-info" (click)="submitComment(comment.value, post)">
+                                        <span class="fa fa-plus"></span>
                                     </button>
                                 </div>
                             </form>
@@ -65,4 +64,4 @@
             </div>
         </div>
     </div>
-</div>
+</di
