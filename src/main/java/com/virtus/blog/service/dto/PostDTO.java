@@ -30,7 +30,7 @@ public class PostDTO implements Serializable {
 
     private String bodyText;
 
-    private List<String> assets;
+    private List<AssetDTO> assets;
 
     private List<CommentaryDTO> commentaries;
 
@@ -90,11 +90,11 @@ public class PostDTO implements Serializable {
         this.bodyText = bodyText;
     }
 
-    public List<String> getAssets() {
+    public List<AssetDTO> getAssets() {
         return assets;
     }
 
-    public void setAssets(List<String> assets) {
+    public void setAssets(List<AssetDTO> assets) {
         this.assets = assets;
     }
 

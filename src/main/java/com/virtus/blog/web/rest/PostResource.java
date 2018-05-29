@@ -41,12 +41,8 @@ public class PostResource {
 
     private final PostService postService;
 
-    private final BodyRepository bodyRepository;
-
-    public PostResource(PostService postService, BodyRepository bodyRepository) {
-
+    public PostResource(PostService postService) {
         this.postService = postService;
-        this.bodyRepository = bodyRepository;
     }
 
     /**

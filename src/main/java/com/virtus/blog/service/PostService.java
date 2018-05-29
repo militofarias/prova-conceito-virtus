@@ -3,10 +3,10 @@ package com.virtus.blog.service;
 import com.virtus.blog.domain.*;
 import com.virtus.blog.repository.*;
 import com.virtus.blog.repository.search.PostSearchRepository;
+import com.virtus.blog.service.dto.AssetDTO;
 import com.virtus.blog.service.dto.CommentaryDTO;
 import com.virtus.blog.service.dto.PostDTO;
 import com.virtus.blog.service.dto.RequestPostDTO;
-import com.virtus.blog.service.mapper.CommentaryMapper;
 import com.virtus.blog.service.mapper.PostMapper;
 import com.virtus.blog.web.rest.errors.PostNotFoundException;
 import org.slf4j.Logger;
@@ -202,6 +202,7 @@ public class PostService {
             Asset asset = new Asset();
             asset.setImagePath(assetDTO.getImagePath());
             asset.body(body);
+            asset.setFileType(assetDTO.getFileType());
             assets.add(this.assetRepository.save(asset));
         });
 
@@ -222,7 +223,7 @@ public class PostService {
             PostDTO postDTO = new PostDTO();
             Body body = bodyRepository.findOne(post.getBodyId());
             postDTO.setBodyText(body.getText());
-            postDTO.setAssets(this.getAssets(body.getId()));
+            postDTO.setAssets(this.getAssetsDTOFormat(body.getAssets()));
             postDTO.setTitle(post.getTitle());
             postDTO.setDate(post.getDate());
             postDTO.setBodyId(post.getBodyId());
@@ -237,18 +238,20 @@ public class PostService {
     /**
      * Get all assets from sent body
      *
-     * @param bodyId the body id with assets
+     * @param bodyAssets the list of assets
      * @return the assets list
      */
-    private List<String> getAssets(Long bodyId) {
+    private List<AssetDTO> getAssetsDTOFormat(Set<Asset> bodyAssets) {
 
-        Body body = bodyRepository.findOne(bodyId);
-        List<String> listToReturn = new ArrayList<>();
+        List<AssetDTO> result = new ArrayList<>();
 
-        for (Asset asset : body.getAssets()) {
-            listToReturn.add(asset.getImagePath());
+        for (Asset asset : bodyAssets) {
+            AssetDTO assetDTO = new AssetDTO();
+            assetDTO.setImagePath(asset.getImagePath());
+            assetDTO.setFileType(asset.getFileType());
+            result.add(assetDTO);
         }
-        return listToReturn;
+        return result;
     }
 
     private List<CommentaryDTO> getCommentaryDTOFormat(List<Commentary> commentaries) {

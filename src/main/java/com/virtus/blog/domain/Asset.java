@@ -31,6 +31,9 @@ public class Asset implements Serializable {
     @ManyToOne
     private Body body;
 
+    @Column(name = "file_type")
+    private String fileType;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -66,6 +69,15 @@ public class Asset implements Serializable {
         this.body = body;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
 
     @Override
     public boolean equals(Object o) {

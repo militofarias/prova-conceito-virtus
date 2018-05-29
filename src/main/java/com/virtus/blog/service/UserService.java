@@ -165,7 +165,7 @@ public class UserService {
      * @param langKey language key
      * @param imageUrl image URL of user
      */
-    public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
+    public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl, String biography) {
         SecurityUtils.getCurrentUserLogin()
             .flatMap(userRepository::findOneByLogin)
             .ifPresent(user -> {
@@ -174,6 +174,7 @@ public class UserService {
                 user.setEmail(email);
                 user.setLangKey(langKey);
                 user.setImageUrl(imageUrl);
+                user.setBiography(biography);
                 userSearchRepository.save(user);
                 cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLogin());
                 cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).evict(user.getEmail());
@@ -207,6 +208,15 @@ public class UserService {
                     user.setActivated(userDTO.isActivated());
                     user.setLangKey(userDTO.getLangKey());
                     Set<Authority> managedAuthorities = user.getAuthorities();
+
+                    System.out.println("-----");
+                    System.out.println("-----");
+                    System.out.println("-----");
+                    System.out.println(userDTO.getBiography());
+                    System.out.println("-----");
+                    System.out.println("-----");
+                    System.out.println("-----");
+
                     if(userDTO.getBiography() != null){
                         user.setBiography((userDTO.getBiography()));
                     }

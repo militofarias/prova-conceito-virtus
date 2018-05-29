@@ -150,19 +150,6 @@ export class PostsComponent implements OnInit, OnDestroy {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         data.forEach((post) => {
-            const assets: Asset[] = [];
-            post.assets.forEach((asset) => {
-                const imagePathArray = asset.imagePath.split('.');
-                let fileType;
-                if (imagePathArray[1] === 'png' || imagePathArray[1] === 'jpeg') {
-                    fileType = 'image/' + imagePathArray[1];
-                } else if (imagePathArray[1] === 'mp4') {
-                    fileType = 'video/' + imagePathArray[1];
-                }
-
-                assets.push(new Asset(asset.id, asset.imagePath, fileType));
-            });
-            post.assets = assets;
             this.posts.push(post);
         });
     }
