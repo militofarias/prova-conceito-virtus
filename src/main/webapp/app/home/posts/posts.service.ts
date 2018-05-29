@@ -1,12 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { SERVER_API_URL } from '../../app.constants';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import {SERVER_API_URL} from '../../app.constants';
 
-import { JhiDateUtils } from 'ng-jhipster';
-
-import { createRequestOption } from '../../shared';
-import {Post} from "./post.model";
+import {createRequestOption} from '../../shared';
+import {Post} from './post.model';
 
 export type EntityResponseType = HttpResponse<Post>;
 
@@ -16,7 +14,7 @@ export class PostService {
     private resourceUrl =  SERVER_API_URL + 'api/posts';
     private resourceSearchUrl = SERVER_API_URL + 'api/_search/posts';
 
-    constructor(private http: HttpClient, private dateUtils: JhiDateUtils) { }
+    constructor(private http: HttpClient) { }
 
     create(post: Post): Observable<EntityResponseType> {
         const copy = this.convert(post);

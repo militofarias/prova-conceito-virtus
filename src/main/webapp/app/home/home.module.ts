@@ -13,8 +13,8 @@ import {
     PostService
 } from './posts';
 
-import {CommentaryService} from "./commentaries";
-import {FileService} from "./files";
+import {CommentaryService} from './commentaries';
+import {FileService} from './files';
 
 @NgModule({
     imports: [

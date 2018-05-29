@@ -30,20 +30,19 @@
             <br/>
             <div class="container">
                 <div class="row divider" *ngFor="let asset of newPost.assets">
-                    <div class="col-sm-2" style="margin-bottom: 10px">
-
+                    <div class="col-sm-6" style="margin-bottom: 10px">
                         <div *ngIf="asset" class="form-text text-danger clearfix">
                             <button type="button" (click)="removeAsset(asset)" class="btn btn-secondary btn-sm pull-right">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div>
-                            <img [src]="asset.path" style="max-height: 50px;" *ngIf="asset" alt="photo image"/>
+                        <div *ngIf="asset.fileType === 'image/jpeg' || asset.fileType === 'image/png'">
+                            <img [src]="asset.imagePath" style="max-height: 200px;" alt="photo image"/>
                         </div>
 
-                        <div *ngIf="templates">
-                            <video width="400" controls>
-                                <source src={{templates.media[0].remoteUrl}} type="video/mp4">Your browser does not support HTML5 video.
+                        <div *ngIf="asset.fileType === 'video/mp4'">
+                            <video width="300" controls>
+                                <source [src]="asset.imagePath" [type]="asset.fileType">Your browser does not support HTML5 video.
                             </video>
                         </div>
                     </div>

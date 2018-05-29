@@ -1,5 +1,5 @@
-import { BaseEntity } from '../../shared/index';
-import {Asset} from "./asset.model";
+import { BaseEntity } from '../../shared';
+import {Asset} from './asset.model';
 
 export class Post implements BaseEntity {
     public id?: number;
@@ -8,5 +8,5 @@ export class Post implements BaseEntity {
     public date?: Date;
     public assets?: Asset[];
     public authorLogin?: string;
-    public commentaries: any[]
+    public commentaries: any[];
 }

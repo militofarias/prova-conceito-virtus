@@ -2,15 +2,15 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {JhiAlertService, JhiDataUtils, JhiEventManager} from 'ng-jhipster';
-import {BodyMySuffixService} from '../../entities/body-my-suffix/index';
+import {BodyMySuffixService} from '../../entities/body-my-suffix';
 import {PostsPopupService} from './posts-popup.service';
 import {Post} from './post.model';
 import {Asset} from './asset.model';
-import {PostService} from "./posts.service";
-import {PostMySuffix} from "../../entities/post-my-suffix/post-my-suffix.model";
-import {Observable} from "rxjs/Observable";
-import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
-import {File, FileService} from "../files";
+import {PostService} from './posts.service';
+import {PostMySuffix} from '../../entities/post-my-suffix';
+import {Observable} from 'rxjs/Observable';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {File, FileService} from '../files';
 
 @Component({
     selector: 'jhi-post-dialog',
@@ -65,23 +65,26 @@ export class PostsDialogComponent implements OnInit {
 
     setFileData(files) {
 
-        if (this.newPost.assets == null) this.newPost.assets = [];
+        if (this.newPost.assets == null) {
+            this.newPost.assets = [];
+        }
 
-        if (files.length == 1) {
+        if (files.length === 1) {
             this.fileService.create(files[0]).subscribe(
                 (res: HttpResponse<File>) => {
-                    this.newPost.assets.push(new Asset(res.body.id, res.body.imagePath, res.body.fileType));
-                    console.log(this.newPost.assets)
-
+                    const asset = new Asset();
+                    asset.imagePath = res.body.imagePath;
+                    asset.fileType = res.body.fileType;
+                    this.newPost.assets.push(asset);
                 }, (res: HttpErrorResponse) => {
-                    console.log("Error");
+                    console.log('Error');
                     console.log(res);
                 });
         }
     }
 
     removeAsset(asset) {
-        this.newPost.assets = this.newPost.assets.filter(obj => obj.id !== asset.id );
+        this.newPost.assets = this.newPost.assets.filter((obj) => obj.id !== asset.id );
     }
 }
 

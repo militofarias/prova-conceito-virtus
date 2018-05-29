@@ -198,13 +198,12 @@ public class PostService {
     private Set<Asset> createAsset(RequestPostDTO requestPostDTO, Body body) {
 
         Set<Asset> assets = new HashSet<>();
-        for (String asset : requestPostDTO.getAssets()) {
-            Asset newAsset = new Asset();
-            newAsset.setImagePath(asset);
-            newAsset.setBody(body);
-            Asset savedAsset = assetRepository.save(newAsset);
-            assets.add(savedAsset);
-        }
+        requestPostDTO.getAssets().forEach(assetDTO -> {
+            Asset asset = new Asset();
+            asset.setImagePath(assetDTO.getImagePath());
+            asset.body(body);
+            assets.add(this.assetRepository.save(asset));
+        });
 
         return assets;
     }

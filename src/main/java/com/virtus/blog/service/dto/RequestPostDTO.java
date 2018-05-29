@@ -1,5 +1,7 @@
 package com.virtus.blog.service.dto;
 
+import com.virtus.blog.domain.Asset;
+
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ public class RequestPostDTO {
     @NotNull
     private String bodyText;
 
-    private List<String> assets = new ArrayList<String>();
+    private List<AssetDTO> assets;
 
     public String getTitle() {
         return title;
@@ -46,11 +48,11 @@ public class RequestPostDTO {
         this.bodyText = bodyText;
     }
 
-    public List<String> getAssets() {
+    public List<AssetDTO> getAssets() {
         return assets;
     }
 
-    public void setAssets(List<String> assets) {
+    public void setAssets(List<AssetDTO> assets) {
         this.assets = assets;
     }
 }

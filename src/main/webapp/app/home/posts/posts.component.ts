@@ -5,10 +5,10 @@ import {Subscription} from 'rxjs/Subscription';
 import {JhiAlertService, JhiEventManager, JhiParseLinks} from 'ng-jhipster';
 
 import {ITEMS_PER_PAGE, Principal} from '../../shared';
-import {Post} from "./post.model";
-import {PostService} from "./posts.service";
-import {CommentaryMySuffix, CommentaryMySuffixService} from "../../entities/commentary-my-suffix";
-import {Commentary, CommentaryService} from "../commentaries";
+import {Post} from './post.model';
+import {PostService} from './posts.service';
+import {Commentary, CommentaryService} from '../commentaries';
+import {Asset} from './asset.model';
 
 @Component({
     selector: 'jhi-posts',
@@ -149,10 +149,22 @@ export class PostsComponent implements OnInit, OnDestroy {
         this.posts = [];
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
-        console.log(data);
-        for (let i = 0; i < data.length; i++) {
-            this.posts.push(data[i]);
-        }
+        data.forEach((post) => {
+            const assets: Asset[] = [];
+            post.assets.forEach((asset) => {
+                const imagePathArray = asset.imagePath.split('.');
+                let fileType;
+                if (imagePathArray[1] === 'png' || imagePathArray[1] === 'jpeg') {
+                    fileType = 'image/' + imagePathArray[1];
+                } else if (imagePathArray[1] === 'mp4') {
+                    fileType = 'video/' + imagePathArray[1];
+                }
+
+                assets.push(new Asset(asset.id, asset.imagePath, fileType));
+            });
+            post.assets = assets;
+            this.posts.push(post);
+        });
     }
 
     private onError(error) {
@@ -169,10 +181,10 @@ export class PostsComponent implements OnInit, OnDestroy {
 
         this.commentaryService.create(commentary).subscribe(
             (res: HttpResponse<Commentary>) => {
-                this.reset()
+                this.reset();
                 this.loadAll();
             }, (res: HttpErrorResponse) => {
-                console.log(res)
+                console.log(res);
             }
         );
     }

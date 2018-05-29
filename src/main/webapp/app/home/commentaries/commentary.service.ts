@@ -3,7 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { SERVER_API_URL } from '../../app.constants';
 
-import {Commentary} from "./commentary.model";
+import {Commentary} from './commentary.model';
 
 export type EntityResponseType = HttpResponse<Commentary>;
 
@@ -19,8 +19,6 @@ export class CommentaryService {
         return this.http.post<Commentary>(this.resourceUrl, copy, { observe: 'response' })
             .map((res: EntityResponseType) => this.convertResponse(res));
     }
-
-
 
     private convertResponse(res: EntityResponseType): EntityResponseType {
         const body: Commentary = this.convertItemFromServer(res.body);

@@ -37,13 +37,19 @@
                     <div *ngIf="!post.assets || post.assets.length == 0">
                         <p><small>No assets</small></p>
                     </div>
-                    <!--<div *ngIf="post.assets">-->
-                        <!--<ul class="list-unstyled" *ngFor="let asset of post.assets">-->
-                            <!--<li class="media">-->
-                                <!--<img class="mr-1" src="asset" style="width: 20px" alt="Generic placeholder image">-->
-                            <!--</li>-->
-                        <!--</ul>-->
-                    <!--</div>-->
+                    <div *ngIf="post.assets" class="row">
+                        <div class="col-sm-3" *ngFor="let asset of post.assets">
+                            <div *ngIf="asset.fileType === 'image/jpeg' || asset.fileType === 'image/png'">
+                                <img class="mr-1" [src]="asset.imagePath" style="max-height: 150px;" alt="photo image"/>
+                            </div>
+
+                            <div *ngIf="asset.fileType === 'video/mp4'">
+                                <video width="300" controls>
+                                    <source class="mr-1" [src]="asset.imagePath" [type]="asset.fileType">Your browser does not support HTML5 video.
+                                </video>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer bg-transparent">
                     <span>Comments</span>
