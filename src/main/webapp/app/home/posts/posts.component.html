@@ -26,15 +26,15 @@
         <div  infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0" >
             <div class="card card-item" *ngFor="let post of posts">
                 <div class="card-body">
-                    <h5 class="card-title">{{post.title}}</h5>
-                    <p class="card-text">
-                        {{post.bodyText}}
-                    </p>
-                    <p class="card-text"><small class="text-muted">Author: {{post.authorLogin}}</small></p>
+                    <h6 class="card-title text-center">{{post.title}}</h6>
+                    <p class="post-body text-center"><small>{{post.bodyText}}</small></p>
+                    <blockquote class="blockquote">
+                        <footer class="blockquote-footer"><small>{{post.authorLogin}}</small></footer>
+                    </blockquote>
                 </div>
                 <div class="card-footer bg-transparent">
-                    Assets
-                    <div *ngIf="!post.assets || post.assets.length == 0">
+                    <h6 class=" text-center">Assets</h6>
+                    <div class="text-center" *ngIf="!post.assets || post.assets.length == 0">
                         <p><small>No assets</small></p>
                     </div>
                     <div *ngIf="post.assets" class="row">
@@ -52,19 +52,17 @@
                     </div>
                 </div>
                 <div class="card-footer bg-transparent">
-                    <span>Comments</span>
-                    <br/>
-                    <br/>
+                    <span class="text-center"><h6>Comments</h6></span>
 
                     <div *ngIf="!post.commentaries || post.commentaries.length == 0">
-                        <p><small>No comments</small></p>
+                        <p class="post-body  text-center"><small>No comments</small></p>
                     </div>
                     <div *ngIf="post.commentaries">
                         <ul class="list-unstyled" *ngFor="let comment of post.commentaries">
                             <li class="media">
                                 <img class="mr-1" src="../../../content/images/logo-jhipster.png" style="width: 20px" alt="Generic placeholder image">
                                 <div class="media-body">
-                                    <p class="mt-0">{{comment.authorLogin}}</p>
+                                    <p class="mt-0"><b>{{comment.authorLogin}}</b></p>
                                     <p><small>{{comment.text}}</small></p>
                                 </div>
                             </li>
