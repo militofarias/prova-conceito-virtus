@@ -28,6 +28,9 @@ public class Asset implements Serializable {
     @Column(name = "image_path")
     private String imagePath;
 
+    @Column(name = "asset_type")
+    private String imageType;
+
     @ManyToOne
     private Body body;
 
@@ -51,6 +54,14 @@ public class Asset implements Serializable {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
     }
 
     public Body getBody() {

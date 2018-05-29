@@ -40,7 +40,7 @@ public class UploadController {
             .collect(Collectors.toList())).toString();
     }
 
-    @GetMapping("/imagefile/{filename:.+}")
+    @GetMapping("/asset/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 

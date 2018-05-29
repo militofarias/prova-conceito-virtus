@@ -72,6 +72,10 @@ spring:
                 path:
                     logs: build/elasticsearch/log
                     data: build/elasticsearch/data
+    elasticsearch:
+        properties:
+            http:
+                enabled: true
     mail:
         host: smtp.gmail.com
         port: 587

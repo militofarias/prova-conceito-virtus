@@ -24,6 +24,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -106,7 +107,6 @@ public class PostResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/posts");
         return new ResponseEntity<>(postService.getPostDTOFormat(page), headers, HttpStatus.OK);
     }
-
 
     /**
      * GET  /posts/:id : get the "id" post.
