@@ -95,7 +95,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
             .authorizeRequests()
             .antMatchers("/api/commentaries").permitAll()
-            .antMatchers("/api/imagefile/**").permitAll()
+            .antMatchers("/api/asset/**").permitAll()
             .antMatchers("/api/_search/**").permitAll()
             .antMatchers("/api/upload").permitAll()
             .antMatchers("/api/posts").permitAll()

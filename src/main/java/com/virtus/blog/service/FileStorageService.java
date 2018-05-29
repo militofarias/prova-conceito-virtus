@@ -1,5 +1,6 @@
 package com.virtus.blog.service;
 
+import com.virtus.blog.service.dto.UploadFileResponse;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,7 +11,7 @@ public interface FileStorageService {
 
     void init();
 
-    String store(MultipartFile file);
+    UploadFileResponse store(MultipartFile file);
 
     Stream<Path> loadAll();
 

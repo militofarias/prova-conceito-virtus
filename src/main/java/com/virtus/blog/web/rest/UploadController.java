@@ -52,17 +52,10 @@ public class UploadController {
     @PostMapping("/upload")
     public UploadFileResponse handleFileUpload(@RequestParam("file") MultipartFile file,
                                                                RedirectAttributes redirectAttributes) {
-        String fileName = storageService.store(file);
+        UploadFileResponse fileResponse = storageService.store(file);
 
         redirectAttributes.addFlashAttribute("message",
             "You successfully uploaded " + file.getOriginalFilename() + "!");
-
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-            .path("/api/imagefile/")
-            .path(fileName)
-            .toUriString();
-        UploadFileResponse fileResponse = new UploadFileResponse(fileName, fileDownloadUri,
-            file.getContentType(), file.getSize());
 
         return fileResponse;
     }

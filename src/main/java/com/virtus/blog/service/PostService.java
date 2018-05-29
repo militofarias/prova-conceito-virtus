@@ -37,19 +37,21 @@ public class PostService {
 
     private final AssetRepository assetRepository;
 
+    private final AssetService assetService;
+
     private final BodyRepository bodyRepository;
 
     private final PostMapper postMapper;
 
-
     private final PostSearchRepository postSearchRepository;
 
     public PostService(PostRepository postRepository, PostMapper postMapper, PostSearchRepository postSearchRepository,
-                       AssetRepository assetRepository, BodyRepository bodyRepository) {
+                       AssetRepository assetRepository, AssetService assetService, BodyRepository bodyRepository) {
         this.postRepository = postRepository;
         this.postMapper = postMapper;
         this.postSearchRepository = postSearchRepository;
         this.assetRepository = assetRepository;
+        this.assetService = assetService;
         this.bodyRepository = bodyRepository;
     }
 
@@ -184,12 +186,13 @@ public class PostService {
     private Set<Asset> createAsset(RequestPostDTO requestPostDTO, Body body) {
 
         Set<Asset> assets = new HashSet<>();
-        for (String asset : requestPostDTO.getAssets()) {
-            Asset newAsset = new Asset();
-            newAsset.setImagePath(asset);
-            newAsset.setBody(body);
-            Asset savedAsset = assetRepository.save(newAsset);
-            assets.add(savedAsset);
+        for (Long assetId : requestPostDTO.getAssets()) {
+            Asset asset = assetRepository.findOne(assetId);
+            if (asset != null) {
+                asset.setBody(body);
+                assetService.upDate(asset);
+                assets.add(asset);
+            }
         }
 
         return assets;
@@ -226,13 +229,13 @@ public class PostService {
      * @param bodyId the body id with assets
      * @return the assets list
      */
-    private List<String> getAssets(Long bodyId) {
+    private List<Asset> getAssets(Long bodyId) {
 
         Body body = bodyRepository.findOne(bodyId);
-        List<String> listToReturn = new ArrayList<>();
+        List<Asset> listToReturn = new ArrayList<>();
 
         for (Asset asset : body.getAssets()) {
-            listToReturn.add(asset.getImagePath());
+            listToReturn.add(asset);
         }
         return listToReturn;
     }

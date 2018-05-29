@@ -15,6 +15,8 @@ public class AssetDTO implements Serializable {
 
     private String imagePath;
 
+    private String assetType;
+
     private Long bodyId;
 
     public Long getId() {
@@ -39,6 +41,14 @@ public class AssetDTO implements Serializable {
 
     public void setBodyId(Long bodyId) {
         this.bodyId = bodyId;
+    }
+
+    public String getAssetType() {
+        return assetType;
+    }
+
+    public void setAssetType(String assetType) {
+        this.assetType = assetType;
     }
 
     @Override

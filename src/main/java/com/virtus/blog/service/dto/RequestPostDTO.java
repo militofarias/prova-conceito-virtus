@@ -20,7 +20,7 @@ public class RequestPostDTO {
     @NotNull
     private String bodyText;
 
-    private List<String> assets = new ArrayList<String>();
+    private List<Long> assets = new ArrayList<Long>();
 
     public String getTitle() {
         return title;
@@ -46,11 +46,11 @@ public class RequestPostDTO {
         this.bodyText = bodyText;
     }
 
-    public List<String> getAssets() {
+    public List<Long> getAssets() {
         return assets;
     }
 
-    public void setAssets(List<String> assets) {
+    public void setAssets(List<Long> assets) {
         this.assets = assets;
     }
 }

@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.stream.Stream;
 
+import com.virtus.blog.service.dto.UploadFileResponse;
 import com.virtus.blog.storage.FileStorageException;
 import com.virtus.blog.storage.FileStorageProperties;
 import com.virtus.blog.storage.StorageFileNotFoundException;
@@ -24,38 +25,52 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Service
 public class FileSystemStorageService implements FileStorageService {
 
     private final Path rootLocation;
 
+    private final AssetService assetService;
+
     @Autowired
-    public FileSystemStorageService(FileStorageProperties properties) {
+    public FileSystemStorageService(FileStorageProperties properties, AssetService assetService) {
         this.rootLocation = Paths.get(properties.getUploadDir());
+        this.assetService = assetService;
     }
 
     @Override
-    public String store(MultipartFile file) {
-        String filename = StringUtils.cleanPath(getDateTime() + "." + FilenameUtils.getExtension(file.getOriginalFilename()));
+    public UploadFileResponse store(MultipartFile file) {
+        String fileName = StringUtils.cleanPath(getDateTime() + "." + FilenameUtils.getExtension(file.getOriginalFilename()));
         try {
             if (file.isEmpty()) {
-                throw new FileStorageException("Failed to store empty file " + filename);
+                throw new FileStorageException("Failed to store empty file " + fileName);
             }
-            if (filename.contains("..")) {
+            if (fileName.contains("..")) {
                 // This is a security check
                 throw new FileStorageException(
                         "Cannot store file with relative path outside current directory "
-                                + filename);
+                                + fileName);
             }
             try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, this.rootLocation.resolve(filename),
+                Files.copy(inputStream, this.rootLocation.resolve(fileName),
                     StandardCopyOption.REPLACE_EXISTING);
-                return filename;
+
+                String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/api/asset/")
+                    .path(fileName)
+                    .toUriString();
+                UploadFileResponse fileResponse = new UploadFileResponse(fileName, fileDownloadUri,
+                    file.getContentType(), file.getSize());
+
+                assetService.save(fileDownloadUri, file.getContentType());
+
+                return fileResponse;
             }
         }
         catch (IOException e) {
-            throw new FileStorageException("Failed to store file " + filename, e);
+            throw new FileStorageException("Failed to store file " + fileName, e);
         }
     }
 
