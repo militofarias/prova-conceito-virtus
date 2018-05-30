@@ -121,6 +121,7 @@ export class PostsComponent implements OnInit, OnDestroy {
         this.currentSearch = query;
         this.loadAll();
     }
+
     ngOnInit() {
         this.loadAll();
         this.registerChangeInPosts();
@@ -146,7 +147,6 @@ export class PostsComponent implements OnInit, OnDestroy {
     }
 
     private onSuccess(data, headers) {
-        this.posts = [];
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         data.forEach((post) => {

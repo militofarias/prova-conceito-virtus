@@ -21,8 +21,14 @@
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jHipsterBlogApp.post.body" for="field_body">Body</label>
-            <textarea type="text" class="form-control" aria-label="With textarea" name="title" id="field_body"
+            <textarea type="text" class="form-control" aria-label="Body" name="bodyText" id="field_body"
                       [(ngModel)]="newPost.bodyText" required></textarea>
+            <div [hidden]="!(editForm.controls.bodyText?.dirty && editForm.controls.bodyText?.invalid)">
+                <small class="form-text text-danger"
+                       [hidden]="!editForm.controls.bodyText?.errors?.required" jhiTranslate="entity.validation.required">
+                    This field is required.
+                </small>
+            </div>
         </div>
 
         <div class="form-group">
