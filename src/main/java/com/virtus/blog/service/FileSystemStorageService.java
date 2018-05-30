@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.stream.Stream;
 
+import com.virtus.blog.service.dto.AssetDTO;
 import com.virtus.blog.service.dto.UploadFileResponse;
 import com.virtus.blog.storage.FileStorageException;
 import com.virtus.blog.storage.FileStorageProperties;
@@ -61,10 +62,11 @@ public class FileSystemStorageService implements FileStorageService {
                     .path("/api/asset/")
                     .path(fileName)
                     .toUriString();
-                UploadFileResponse fileResponse = new UploadFileResponse(fileName, fileDownloadUri,
-                    file.getContentType(), file.getSize());
 
-                assetService.save(fileDownloadUri, file.getContentType());
+                AssetDTO assetDTO = assetService.save(fileDownloadUri, file.getContentType());
+
+                UploadFileResponse fileResponse = new UploadFileResponse(assetDTO.getId(), fileName, fileDownloadUri,
+                    file.getContentType(), file.getSize());
 
                 return fileResponse;
             }

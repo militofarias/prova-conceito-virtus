@@ -3,9 +3,7 @@ package com.virtus.blog.web.rest;
 import com.virtus.blog.service.FileStorageService;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.virtus.blog.service.dto.UploadFileResponse;
 import com.virtus.blog.storage.StorageFileNotFoundException;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/api")
