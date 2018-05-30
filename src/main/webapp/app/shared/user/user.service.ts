@@ -37,4 +37,8 @@ export class UserService {
         return this.http.get<string[]>(SERVER_API_URL + 'api/users/authorities');
     }
 
+    getAuthorInfo(login: string): Observable<HttpResponse<User>> {
+        return this.http.get<User>(`${this.resourceUrl}/author/${login}`, { observe: 'response' });
+    }
+
 }

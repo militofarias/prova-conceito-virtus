@@ -1,17 +1,17 @@
 package com.virtus.blog.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.virtus.blog.domain.Body;
-import com.virtus.blog.repository.BodyRepository;
 import com.virtus.blog.security.AuthoritiesConstants;
 import com.virtus.blog.service.PostService;
+import com.virtus.blog.service.dto.PostDTO;
 import com.virtus.blog.service.dto.RequestPostDTO;
 import com.virtus.blog.web.rest.util.HeaderUtil;
 import com.virtus.blog.web.rest.util.PaginationUtil;
-import com.virtus.blog.service.dto.PostDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -98,6 +96,7 @@ public class PostResource {
     public ResponseEntity<List<PostDTO>> getAllPosts(Pageable pageable) {
         log.debug("REST request to get a page of Posts");
         Page<PostDTO> page = postService.findAll(pageable);
+
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/posts");
         return new ResponseEntity<>(postService.getPostDTOFormat(page), headers, HttpStatus.OK);
     }

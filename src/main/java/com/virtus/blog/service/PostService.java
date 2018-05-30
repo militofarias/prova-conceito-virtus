@@ -3,10 +3,7 @@ package com.virtus.blog.service;
 import com.virtus.blog.domain.*;
 import com.virtus.blog.repository.*;
 import com.virtus.blog.repository.search.PostSearchRepository;
-import com.virtus.blog.service.dto.AssetDTO;
-import com.virtus.blog.service.dto.CommentaryDTO;
-import com.virtus.blog.service.dto.PostDTO;
-import com.virtus.blog.service.dto.RequestPostDTO;
+import com.virtus.blog.service.dto.*;
 import com.virtus.blog.service.mapper.PostMapper;
 import com.virtus.blog.web.rest.errors.PostNotFoundException;
 import org.slf4j.Logger;
@@ -198,13 +195,16 @@ public class PostService {
     private Set<Asset> createAsset(RequestPostDTO requestPostDTO, Body body) {
 
         Set<Asset> assets = new HashSet<>();
-        requestPostDTO.getAssets().forEach(assetDTO -> {
-            Asset asset = new Asset();
-            asset.setImagePath(assetDTO.getImagePath());
-            asset.body(body);
-            asset.setFileType(assetDTO.getFileType());
-            assets.add(this.assetRepository.save(asset));
-        });
+
+        if (requestPostDTO.getAssets() != null) {
+            requestPostDTO.getAssets().forEach(assetDTO -> {
+                Asset asset = new Asset();
+                asset.setImagePath(assetDTO.getImagePath());
+                asset.body(body);
+                asset.setFileType(assetDTO.getFileType());
+                assets.add(this.assetRepository.save(asset));
+            });
+        }
 
         return assets;
     }
@@ -222,13 +222,17 @@ public class PostService {
         for (PostDTO post : page.getContent()) {
             PostDTO postDTO = new PostDTO();
             Body body = bodyRepository.findOne(post.getBodyId());
-            postDTO.setBodyText(body.getText());
-            postDTO.setAssets(this.getAssetsDTOFormat(body.getAssets()));
+            if (body != null) {
+                postDTO.setBodyText(body.getText());
+                postDTO.setAssets(this.getAssetsDTOFormat(body.getAssets()));
+            }
+
             postDTO.setTitle(post.getTitle());
             postDTO.setDate(post.getDate());
             postDTO.setBodyId(post.getBodyId());
             postDTO.setId(post.getId());
-            postDTO.setAuthorLogin(post.getAuthorLogin());
+            postDTO.setAuthor(userService.getUserAuthorInfo(post.getAuthorLogin()));
+
             postDTO.setCommentaries(getCommentaryDTOFormat(commentaryRepository.findByPostId(post.getId())));
             pagesToReturn.add(postDTO);
         }

@@ -1,11 +1,7 @@
 package com.virtus.blog.service.dto;
 
-import com.virtus.blog.domain.Asset;
-
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-
 import java.util.List;
 
 /**

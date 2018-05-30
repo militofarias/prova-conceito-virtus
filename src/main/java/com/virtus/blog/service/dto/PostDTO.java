@@ -26,6 +26,8 @@ public class PostDTO implements Serializable {
 
     private Long authorId;
 
+    private AuthorDTO author;
+
     private String authorLogin;
 
     private String bodyText;
@@ -66,12 +68,20 @@ public class PostDTO implements Serializable {
         this.bodyId = bodyId;
     }
 
+    public AuthorDTO getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(AuthorDTO author) {
+        this.author = author;
+    }
+
     public Long getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(Long userId) {
-        this.authorId = userId;
+    public void setAuthorId(Long authorId) {
+        this.authorId = authorId;
     }
 
     public String getAuthorLogin() {

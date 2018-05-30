@@ -1,6 +1,7 @@
 package com.virtus.blog.config;
 
 import io.github.jhipster.config.JHipsterProperties;
+import org.ehcache.CacheManager;
 import org.ehcache.config.builders.CacheConfigurationBuilder;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
 import org.ehcache.expiry.Duration;
@@ -25,6 +26,7 @@ public class CacheConfiguration {
     public CacheConfiguration(JHipsterProperties jHipsterProperties) {
         JHipsterProperties.Cache.Ehcache ehcache =
             jHipsterProperties.getCache().getEhcache();
+
 
         jcacheConfiguration = Eh107Configuration.fromEhcacheCacheConfiguration(
             CacheConfigurationBuilder.newCacheConfigurationBuilder(Object.class, Object.class,

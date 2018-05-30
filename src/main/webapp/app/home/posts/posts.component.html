@@ -28,9 +28,6 @@
                 <div class="card-body">
                     <h6 class="card-title text-center">{{post.title}}</h6>
                     <p class="post-body text-center"><small>{{post.bodyText}}</small></p>
-                    <blockquote class="blockquote">
-                        <footer class="blockquote-footer"><small>{{post.authorLogin}}</small></footer>
-                    </blockquote>
                 </div>
                 <div class="card-footer bg-transparent">
                     <h6 class=" text-center">Assets</h6>
@@ -50,6 +47,16 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <h6 class=" text-center">Bio</h6>
+                    <div class="col-sm-4 col-sm-offset-2">
+                        <p><b>{{post.author.firstName}}</b></p>
+                    </div>
+                    <div class="col-sm-4 col-sm-offset-2">
+                        <p><i>{{post.author.biography}}</i></p>
+                    </div>
+
                 </div>
                 <div class="card-footer bg-transparent">
                     <span class="text-center"><h6>Comments</h6></span>

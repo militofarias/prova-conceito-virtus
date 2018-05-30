@@ -9,6 +9,7 @@ import com.virtus.blog.repository.UserRepository;
 import com.virtus.blog.repository.search.UserSearchRepository;
 import com.virtus.blog.security.AuthoritiesConstants;
 import com.virtus.blog.security.SecurityUtils;
+import com.virtus.blog.service.dto.AuthorDTO;
 import com.virtus.blog.service.util.RandomUtil;
 import com.virtus.blog.service.dto.UserDTO;
 
@@ -209,14 +210,6 @@ public class UserService {
                     user.setLangKey(userDTO.getLangKey());
                     Set<Authority> managedAuthorities = user.getAuthorities();
 
-                    System.out.println("-----");
-                    System.out.println("-----");
-                    System.out.println("-----");
-                    System.out.println(userDTO.getBiography());
-                    System.out.println("-----");
-                    System.out.println("-----");
-                    System.out.println("-----");
-
                     if(userDTO.getBiography() != null){
                         user.setBiography((userDTO.getBiography()));
                     }
@@ -299,6 +292,27 @@ public class UserService {
      */
     public List<String> getAuthorities() {
         return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
+    }
+
+    public AuthorDTO getUserAuthorInfo(String login) {
+        Optional<User> userOptional = getUserWithAuthoritiesByLogin(login);
+
+        if (userOptional.isPresent()) {
+
+            User user = userOptional.get();
+
+            AuthorDTO authorDTO = new AuthorDTO();
+            authorDTO.setFirstName(user.getFirstName());
+            authorDTO.setLastName(user.getLastName());
+            authorDTO.setBiography(user.getBiography());
+            authorDTO.setImageUrl(user.getImageUrl());
+            authorDTO.setLogin(user.getLogin());
+
+            return authorDTO;
+        } else {
+            return null;
+        }
+
     }
 
 }

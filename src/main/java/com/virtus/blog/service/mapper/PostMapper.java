@@ -12,7 +12,6 @@ import org.mapstruct.*;
 public interface PostMapper extends EntityMapper<PostDTO, Post> {
 
     @Mapping(source = "body.id", target = "bodyId")
-    @Mapping(source = "author.id", target = "authorId")
     @Mapping(source = "author.login", target = "authorLogin")
     PostDTO toDto(Post post);
 

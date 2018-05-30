@@ -1,5 +1,6 @@
 import { BaseEntity } from '../../shared';
 import {Asset} from './asset.model';
+import {Author} from './author.model';
 
 export class Post implements BaseEntity {
     public id?: number;
@@ -7,6 +8,6 @@ export class Post implements BaseEntity {
     public bodyText?: string;
     public date?: Date;
     public assets?: Asset[];
-    public authorLogin?: string;
+    public author?: Author;
     public commentaries: any[];
 }
