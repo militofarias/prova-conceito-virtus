@@ -1,5 +1,5 @@
 import _root_.io.gatling.core.scenario.Simulation
-import ch.qos.logback.classic.{Level, LoggerContext}
+import ch.qos.logback.classic.LoggerContext
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import org.slf4j.LoggerFactory
@@ -68,7 +68,7 @@ class PostGatlingTest extends Simulation {
             .exec(http("Create new post")
             .post("/api/posts")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "title":"SAMPLE_TEXT", "date":"2020-01-01T00:00:00.000Z"}""")).asJSON
+            .body(StringBody("""{"id":null, "title":"SAMPLE_TEXT", "date":"2020-01-01T00:00:00.000Z", "bodyText":"SAMPLE_BODY_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_post_url"))).exitHereIfFailed
             .pause(10)

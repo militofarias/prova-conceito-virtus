@@ -68,7 +68,7 @@ class BodyGatlingTest extends Simulation {
             .exec(http("Create new body")
             .post("/api/bodies")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "text":null}""")).asJSON
+            .body(StringBody("""{"id":null, "text":"BODY_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_body_url"))).exitHereIfFailed
             .pause(10)

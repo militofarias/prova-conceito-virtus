@@ -242,11 +242,19 @@ dependencies {
         exclude group: 'com.vaadin.external.google', module: 'android-json'
     }
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
+//    compile 'org.scala-lang:scala-library:2.11.8'
 }
 
 task cleanResources(type: Delete) {
     delete 'build/resources'
 }
+
+task cleanGatlingResources(type: Delete) {
+    delete 'build/classes/scala'
+    delete 'build/tmp/scala'
+}
+
+tasks.gatlingRun.dependsOn(cleanGatlingResources)
 
 task wrapper(type: Wrapper) {
     gradleVersion = '4.4'
