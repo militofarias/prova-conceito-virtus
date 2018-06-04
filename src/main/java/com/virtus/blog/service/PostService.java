@@ -180,7 +180,8 @@ public class PostService {
         body.setText(requestPostDTO.getBodyText());
         body.setPost(postMapper.toEntity(postDTO));
         bodyRepository.save(body);
-        body.setAssets(this.createAsset(requestPostDTO, body));
+        requestPostDTO.getAssets().forEach(System.out::println);
+        body.setAssets(this.updateAssetBody(requestPostDTO, body));
 
         return body;
     }
@@ -192,16 +193,15 @@ public class PostService {
      * @param body           the body being generated
      * @return the assets list
      */
-    private Set<Asset> createAsset(RequestPostDTO requestPostDTO, Body body) {
+    private Set<Asset> updateAssetBody(RequestPostDTO requestPostDTO, Body body) {
 
         Set<Asset> assets = new HashSet<>();
 
         if (requestPostDTO.getAssets() != null) {
             requestPostDTO.getAssets().forEach(assetDTO -> {
-                Asset asset = new Asset();
-                asset.setImagePath(assetDTO.getImagePath());
+                Asset asset = this.assetRepository.findOne(assetDTO.getId());
                 asset.body(body);
-                asset.setFileType(assetDTO.getFileType());
+                asset.setImagePath(assetDTO.getImagePath());
                 assets.add(this.assetRepository.save(asset));
             });
         }

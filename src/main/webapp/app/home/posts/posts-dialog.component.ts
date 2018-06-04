@@ -5,12 +5,13 @@ import {JhiAlertService, JhiDataUtils, JhiEventManager} from 'ng-jhipster';
 import {BodyMySuffixService} from '../../entities/body-my-suffix';
 import {PostsPopupService} from './posts-popup.service';
 import {Post} from './post.model';
-import {Asset} from './asset.model';
+import {Asset} from '../assets/asset.model';
 import {PostService} from './posts.service';
 import {PostMySuffix} from '../../entities/post-my-suffix';
 import {Observable} from 'rxjs/Observable';
 import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import {File, FileService} from '../files';
+import {AssetService} from "../assets/asset.service";
 
 @Component({
     selector: 'jhi-post-dialog',
@@ -29,7 +30,7 @@ export class PostsDialogComponent implements OnInit {
         private postService: PostService,
         private bodyService: BodyMySuffixService,
         private eventManager: JhiEventManager,
-        private fileService: FileService
+        private assetService: AssetService
     ) {
     }
 
@@ -70,11 +71,13 @@ export class PostsDialogComponent implements OnInit {
         }
 
         if (files.length === 1) {
-            this.fileService.create(files[0]).subscribe(
-                (res: HttpResponse<File>) => {
+            this.assetService.create(files[0]).subscribe(
+                (res: HttpResponse<Asset>) => {
+                    console.log(res)
                     const asset = new Asset();
                     asset.imagePath = res.body.imagePath;
                     asset.fileType = res.body.fileType;
+                    asset.id = res.body.id;
                     this.newPost.assets.push(asset);
                 }, (res: HttpErrorResponse) => {
                     console.log('Error');

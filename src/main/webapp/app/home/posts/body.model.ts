@@ -1,5 +1,5 @@
 import { BaseEntity } from '../../shared/index';
-import {Asset} from './asset.model';
+import {Asset} from '../assets/asset.model';
 
 export class Body implements BaseEntity {
     constructor(

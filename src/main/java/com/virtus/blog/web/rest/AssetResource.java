@@ -5,6 +5,7 @@ import com.virtus.blog.domain.Asset;
 
 import com.virtus.blog.repository.AssetRepository;
 import com.virtus.blog.repository.search.AssetSearchRepository;
+import com.virtus.blog.service.FileStorageService;
 import com.virtus.blog.web.rest.errors.BadRequestAlertException;
 import com.virtus.blog.web.rest.util.HeaderUtil;
 import com.virtus.blog.service.dto.AssetDTO;
@@ -12,9 +13,16 @@ import com.virtus.blog.service.mapper.AssetMapper;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -42,72 +50,48 @@ public class AssetResource {
 
     private final AssetSearchRepository assetSearchRepository;
 
-    public AssetResource(AssetRepository assetRepository, AssetMapper assetMapper, AssetSearchRepository assetSearchRepository) {
+    private FileStorageService fileStorageService;
+
+    public AssetResource(AssetRepository assetRepository,
+                         AssetMapper assetMapper,
+                         AssetSearchRepository assetSearchRepository,
+                         FileStorageService fileStorageService) {
         this.assetRepository = assetRepository;
         this.assetMapper = assetMapper;
         this.assetSearchRepository = assetSearchRepository;
+        this.fileStorageService = fileStorageService;
+
     }
 
     /**
      * POST  /assets : Create a new asset.
      *
-     * @param assetDTO the assetDTO to create
+     * @param file the file to create
      * @return the ResponseEntity with status 201 (Created) and with body the new assetDTO, or with status 400 (Bad Request) if the asset has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/assets")
     @Timed
-    public ResponseEntity<AssetDTO> createAsset(@RequestBody AssetDTO assetDTO) throws URISyntaxException {
-        log.debug("REST request to save Asset : {}", assetDTO);
-        if (assetDTO.getId() != null) {
-            throw new BadRequestAlertException("A new asset cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        Asset asset = assetMapper.toEntity(assetDTO);
+    public ResponseEntity<AssetDTO> createAsset(@RequestParam("file") MultipartFile file) throws URISyntaxException {
+        log.debug("REST request to save Asset : {}");
+
+        String fileName = fileStorageService.storeFile(file);
+
+        Asset asset = new Asset();
+        asset.setFileType(file.getContentType());
+        asset.setFileName(fileName);
         asset = assetRepository.save(asset);
         AssetDTO result = assetMapper.toDto(asset);
+        result.setImagePath(ServletUriComponentsBuilder.fromCurrentContextPath()
+            .path("/api/assets/file/")
+            .path(Long.toString(asset.getId()))
+            .toUriString());
+
         assetSearchRepository.save(asset);
         return ResponseEntity.created(new URI("/api/assets/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
-
-    /**
-     * PUT  /assets : Updates an existing asset.
-     *
-     * @param assetDTO the assetDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated assetDTO,
-     * or with status 400 (Bad Request) if the assetDTO is not valid,
-     * or with status 500 (Internal Server Error) if the assetDTO couldn't be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
-    @PutMapping("/assets")
-    @Timed
-    public ResponseEntity<AssetDTO> updateAsset(@RequestBody AssetDTO assetDTO) throws URISyntaxException {
-        log.debug("REST request to update Asset : {}", assetDTO);
-        if (assetDTO.getId() == null) {
-            return createAsset(assetDTO);
-        }
-        Asset asset = assetMapper.toEntity(assetDTO);
-        asset = assetRepository.save(asset);
-        AssetDTO result = assetMapper.toDto(asset);
-        assetSearchRepository.save(asset);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, assetDTO.getId().toString()))
-            .body(result);
-    }
-
-    /**
-     * GET  /assets : get all the assets.
-     *
-     * @return the ResponseEntity with status 200 (OK) and the list of assets in body
-     */
-    @GetMapping("/assets")
-    @Timed
-    public List<AssetDTO> getAllAssets() {
-        log.debug("REST request to get all Assets");
-        List<Asset> assets = assetRepository.findAll();
-        return assetMapper.toDto(assets);
-        }
 
     /**
      * GET  /assets/:id : get the "id" asset.
@@ -124,6 +108,33 @@ public class AssetResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(assetDTO));
     }
 
+    @GetMapping("/assets/file/{id}")
+    @Timed
+    public ResponseEntity<Resource> getAssetFile(@PathVariable Long id, HttpServletRequest request) {
+        log.debug("REST request to get Asset : {}", id);
+        Asset asset = assetRepository.findOne(id);
+
+        Resource resource = fileStorageService.loadFileAsResource(asset.getFileName());
+
+        // Try to determine file's content type
+        String contentType = null;
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException ex) {
+            log.info("Could not determine file type.");
+        }
+
+        // Fallback to the default content type if type could not be determined
+        if(contentType == null) {
+            contentType = "application/octet-stream";
+        }
+
+        return ResponseEntity.ok()
+            .contentType(MediaType.parseMediaType(contentType))
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+            .body(resource);
+    }
+
     /**
      * DELETE  /assets/:id : delete the "id" asset.
      *
@@ -138,22 +149,4 @@ public class AssetResource {
         assetSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-
-    /**
-     * SEARCH  /_search/assets?query=:query : search for the asset corresponding
-     * to the query.
-     *
-     * @param query the query of the asset search
-     * @return the result of the search
-     */
-    @GetMapping("/_search/assets")
-    @Timed
-    public List<AssetDTO> searchAssets(@RequestParam String query) {
-        log.debug("REST request to search Assets for query {}", query);
-        return StreamSupport
-            .stream(assetSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .map(assetMapper::toDto)
-            .collect(Collectors.toList());
-    }
-
 }

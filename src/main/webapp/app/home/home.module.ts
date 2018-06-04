@@ -15,6 +15,7 @@ import {
 
 import {CommentaryService} from './commentaries';
 import {FileService} from './files';
+import {AssetService} from "./assets/asset.service";
 
 @NgModule({
     imports: [
@@ -34,7 +35,8 @@ import {FileService} from './files';
         PostsPopupService,
         PostService,
         CommentaryService,
-        FileService
+        FileService,
+        AssetService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

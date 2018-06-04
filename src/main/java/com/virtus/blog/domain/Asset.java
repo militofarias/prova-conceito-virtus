@@ -34,6 +34,9 @@ public class Asset implements Serializable {
     @Column(name = "file_type")
     private String fileType;
 
+    @Column(name = "file_name")
+    private String fileName;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -71,6 +74,14 @@ public class Asset implements Serializable {
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
 
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     public String getFileType() {
         return fileType;
     }
@@ -104,6 +115,8 @@ public class Asset implements Serializable {
         return "Asset{" +
             "id=" + getId() +
             ", imagePath='" + getImagePath() + "'" +
+            ", fileName='" + getFileName() + "'" +
+            ", fileType='" + getFileType() + "'" +
             "}";
     }
 }

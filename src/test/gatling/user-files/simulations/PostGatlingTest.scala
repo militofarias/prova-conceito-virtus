@@ -51,7 +51,7 @@ class PostGatlingTest extends Simulation {
         .exec(http("Authentication")
         .post("/api/authenticate")
         .headers(headers_http_authentication)
-        .body(StringBody("""{"username":"admin", "password":"admin"}""")).asJSON
+        .body(StringBody("""{"username":"user", "password":"user1"}""")).asJSON
         .check(header.get("Authorization").saveAs("access_token"))).exitHereIfFailed
         .pause(1)
         .exec(http("Authenticated request")

@@ -8,7 +8,6 @@ import {ITEMS_PER_PAGE, Principal} from '../../shared';
 import {Post} from './post.model';
 import {PostService} from './posts.service';
 import {Commentary, CommentaryService} from '../commentaries';
-import {Asset} from './asset.model';
 
 @Component({
     selector: 'jhi-posts',

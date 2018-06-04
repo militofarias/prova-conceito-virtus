@@ -1,5 +1,5 @@
 import { BaseEntity } from '../../shared';
-import {Asset} from './asset.model';
+import {Asset} from '../assets/asset.model';
 import {Author} from './author.model';
 
 export class Post implements BaseEntity {
